@@ -1,5 +1,5 @@
 import { ButtonGroup, Button, IconButton } from "@chakra-ui/react";
-import { TiShoppingCart } from "react-icons/ti";
+import { GrCart } from "react-icons/gr";
 
 const Auth = () => {
   return (
@@ -11,7 +11,7 @@ const Auth = () => {
       </ButtonGroup>
 
       <IconButton fontSize="xl">
-        <TiShoppingCart />
+        <GrCart />
       </IconButton>
     </>
   );

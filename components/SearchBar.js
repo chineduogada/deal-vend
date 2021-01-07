@@ -5,7 +5,7 @@ import {
   InputRightElement,
   IconButton,
 } from "@chakra-ui/react";
-import { AiOutlineSearch } from "react-icons/ai";
+import { ImSearch } from "react-icons/im";
 
 const SearchBar = ({
   value = "",
@@ -26,7 +26,7 @@ const SearchBar = ({
 
       <InputRightElement>
         <IconButton onClick={onSearch}>
-          <AiOutlineSearch />
+          <ImSearch />
         </IconButton>
       </InputRightElement>
     </InputGroup>
