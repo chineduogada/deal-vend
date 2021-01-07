@@ -4,7 +4,7 @@ import Footer from "./Footer";
 
 const Layout = ({ children }) => {
   return (
-    <Box>
+    <Box px={2}>
       <Header />
 
       <Box as="main">{children}</Box>
