@@ -8,7 +8,7 @@ const Carousel = ({ ...rest }) => {
     <Box m={1} rounded="lg" overflow="hidden" {...rest}>
       <Fader buttons>
         {images.map((img, index) => (
-          <Box h={300} key={index}>
+          <Box h={{ base: 300, md: 400 }} key={index}>
             <Image src={img} />
           </Box>
         ))}

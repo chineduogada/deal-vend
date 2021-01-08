@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Flex } from "@chakra-ui/react";
+import media from "../utils/media";
 
 const categories = [
   { name: "computer" },
@@ -7,17 +8,19 @@ const categories = [
   { name: "food" },
 ];
 
-const Categories = () => {
+const Categories = ({ ...rest }) => {
   return (
-    <Box
+    <Flex
       as="aside"
       border="1px"
       color="gray.500"
-      width="200px"
-      height="300px"
       m={1}
       rounded="md"
       overflowY="auto"
+      width={media("auto", "100px")}
+      height={media("auto", "300px")}
+      flexDir={media("row", "column")}
+      {...rest}
     >
       {categories.map((category, index) => (
         <Link href="/" key={index}>
@@ -26,9 +29,15 @@ const Categories = () => {
               p={1}
               fontWeight="500"
               borderBottom="1px"
+              backgroundColor={media("gray.500", "transparent")}
+              color={media("white", "gray.800")}
+              m={media("1", "0")}
+              px={2}
+              rounded="sm"
               _hover={{
                 backgroundColor: "gray.500",
                 color: "white",
+                transform: "scale(1.01)",
               }}
             >
               <Text isTruncated>{category.name}</Text>
@@ -36,7 +45,7 @@ const Categories = () => {
           </a>
         </Link>
       ))}
-    </Box>
+    </Flex>
   );
 };
 

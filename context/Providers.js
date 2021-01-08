@@ -9,7 +9,7 @@ const Providers = ({ children }) => {
       <ThemeProvider
         theme={{
           dots: { 1: "white", 2: "gray" },
-          carets: { 1: "#333", 2: "transparent" },
+          carets: { 1: "white", 2: "transparent" },
         }}
       >
         {children}
