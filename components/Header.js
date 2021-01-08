@@ -1,4 +1,4 @@
-import { Box, Flex, HStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton } from "@chakra-ui/react";
 import Brand from "./Brand";
 import SearchBar from "./SearchBar";
 import Auth from "./Auth";
@@ -25,11 +25,7 @@ const Center = () => (
 const Bottom = () => (
   <Breadcrumb
     paths={[
-      { name: "h1", path: "/hi" },
-      { name: "sd", path: "/sd" },
-      { name: "sdsd", path: "/sdsd" },
-      { name: "sdsd", path: "/sd" },
-      { name: "sbreadd", path: "/sd" },
+      { name: "computer", path: "/hi" },
       { name: "dell", path: "/sd" },
     ]}
   />
