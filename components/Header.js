@@ -5,6 +5,7 @@ import Auth from "./Auth";
 import Categories from "./Categories";
 import Carousel from "./Carousel";
 import media from "../utils/media";
+import Breadcrumb from "./Breadcrumb";
 
 const Top = () => (
   <HStack spacing={2} borderBottom="1px" borderBottomColor="gray.100" p={2}>
@@ -21,15 +22,26 @@ const Center = () => (
   </Flex>
 );
 
+const Bottom = () => (
+  <Breadcrumb
+    paths={[
+      { name: "h1", path: "/hi" },
+      { name: "sd", path: "/sd" },
+      { name: "sdsd", path: "/sdsd" },
+      { name: "sdsd", path: "/sd" },
+      { name: "sbreadd", path: "/sd" },
+      { name: "dell", path: "/sd" },
+    ]}
+  />
+);
+
 const Header = () => {
   return (
-    <Box>
+    <>
       <Top />
-
       <Center />
-
-      <Box>down</Box>
-    </Box>
+      <Bottom />
+    </>
   );
 };
 
