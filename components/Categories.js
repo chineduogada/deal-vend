@@ -17,7 +17,8 @@ const Categories = ({ ...rest }) => {
       m={1}
       rounded="md"
       overflowY="auto"
-      width={media("auto", "100px")}
+      overflowX={media("auto", "hidden")}
+      width={media("auto", "200px")}
       height={media("auto", "300px")}
       flexDir={media("row", "column")}
       {...rest}
