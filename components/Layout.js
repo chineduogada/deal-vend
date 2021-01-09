@@ -2,10 +2,10 @@ import { Box } from "@chakra-ui/react";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, showCarousel }) => {
   return (
     <Box px={2} m="0 auto" maxW={900}>
-      <Header />
+      <Header showCarousel={showCarousel} />
 
       <Box as="main">{children}</Box>
 

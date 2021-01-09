@@ -31,11 +31,11 @@ const Bottom = () => (
   />
 );
 
-const Header = () => {
+const Header = ({ showCarousel }) => {
   return (
     <>
       <Top />
-      <Center />
+      {showCarousel && <Center />}
       <Bottom />
     </>
   );

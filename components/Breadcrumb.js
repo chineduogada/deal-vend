@@ -8,8 +8,8 @@ import {
 const Breadcrumb = ({ paths }) => {
   return (
     <BreadcrumbUI fontWeight="bold">
-      {paths.map((p) => (
-        <BreadcrumbItem>
+      {paths.map((p, index) => (
+        <BreadcrumbItem key={index}>
           <BreadcrumbLink href={p.path}>{p.name}</BreadcrumbLink>
         </BreadcrumbItem>
       ))}

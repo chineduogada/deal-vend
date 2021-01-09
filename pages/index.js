@@ -1,8 +1,9 @@
 import Head from "next/head";
 import { Box } from "@chakra-ui/react";
 import Layout from "../components/Layout";
+import ProductsSection from "../components/Products/ProductsSection";
 
-export default function Home() {
+export default function Home({ data }) {
   return (
     <>
       <Head>
@@ -10,9 +11,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
-        <Box as="a" href="/sd">
-          sd
+      <Layout showCarousel>
+        <Box>
+          <ProductsSection path="/products" limit={3} />
         </Box>
       </Layout>
     </>
