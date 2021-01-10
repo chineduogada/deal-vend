@@ -7,11 +7,10 @@ export default function Home({ data }) {
   return (
     <>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Deal Vend | Home</title>
       </Head>
 
-      <Layout showCarousel>
+      <Layout showHeaderCenter breadcrumbPaths={null}>
         <Box>
           <ProductsSection
             path="/products"

@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, IconButton } from "@chakra-ui/react";
+import { Flex, HStack, Box } from "@chakra-ui/react";
 import Brand from "./Brand";
 import SearchBar from "./SearchBar";
 import Auth from "./Auth";
@@ -8,7 +8,14 @@ import media from "../utils/media";
 import Breadcrumb from "./Breadcrumb";
 
 const Top = () => (
-  <HStack spacing={2} borderBottom="1px" borderBottomColor="gray.100" p={2}>
+  <HStack
+    spacing={2}
+    borderBottom="1px"
+    borderBottomColor="gray.100"
+    p={2}
+    bg="white"
+    rounded="md"
+  >
     <Brand />
     <SearchBar />
     <Auth />
@@ -22,22 +29,22 @@ const Center = () => (
   </Flex>
 );
 
-const Bottom = () => (
-  <Breadcrumb
-    paths={[
-      { name: "computer", path: "/hi" },
-      { name: "dell", path: "/sd" },
-    ]}
-  />
-);
+const Bottom = ({ paths }) => <Breadcrumb paths={paths} />;
 
-const Header = ({ showCarousel }) => {
+const Header = ({
+  showHeaderCenter,
+  breadcrumbPaths = [
+    { name: "computer", path: "/hi" },
+    { name: "dell", path: "/sd" },
+  ],
+}) => {
   return (
-    <>
+    <Box mb={5}>
       <Top />
-      {showCarousel && <Center />}
-      <Bottom />
-    </>
+      {showHeaderCenter && <Center />}
+
+      {breadcrumbPaths && <Bottom paths={breadcrumbPaths} />}
+    </Box>
   );
 };
 

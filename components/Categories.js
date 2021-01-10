@@ -12,8 +12,8 @@ const Categories = ({ ...rest }) => {
   return (
     <Flex
       as="aside"
-      border="1px"
       color="gray.500"
+      bg="white"
       m={1}
       rounded="md"
       overflowY="auto"
@@ -29,19 +29,19 @@ const Categories = ({ ...rest }) => {
             <Box
               p={1}
               fontWeight="500"
-              borderBottom="1px"
               backgroundColor={media("gray.500", "transparent")}
               color={media("white", "gray.800")}
               m={media("1", "0")}
               px={2}
               rounded="sm"
               _hover={{
-                backgroundColor: "gray.500",
-                color: "white",
+                backgroundColor: "gray.100",
                 transform: "scale(1.01)",
               }}
             >
-              <Text isTruncated>{category.name}</Text>
+              <Text fontSize="sm" fontWeight="bold" isTruncated>
+                {category.name}
+              </Text>
             </Box>
           </a>
         </Link>

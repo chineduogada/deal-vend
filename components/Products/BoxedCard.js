@@ -15,10 +15,11 @@ const BoxedCard = ({ product }) => {
         <Box
           m="2px"
           overflow="hidden"
-          rounded="md"
+          rounded="sm"
           transition=".15s"
           _hover={{
             shadow: "md",
+            transform: "scale(0.95)",
           }}
         >
           <Badge

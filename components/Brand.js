@@ -1,7 +1,7 @@
 import { Heading } from "@chakra-ui/react";
 
 const Brand = () => {
-  return <Heading>Brand</Heading>;
+  return <Heading>DealVend</Heading>;
 };
 
 export default Brand;

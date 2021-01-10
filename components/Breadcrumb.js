@@ -2,12 +2,11 @@ import {
   Breadcrumb as BreadcrumbUI,
   BreadcrumbItem,
   BreadcrumbLink,
-  // BreadcrumbSeparator,
 } from "@chakra-ui/react";
 
 const Breadcrumb = ({ paths }) => {
   return (
-    <BreadcrumbUI fontWeight="bold">
+    <BreadcrumbUI fontWeight="bold" mb={5}>
       {paths.map((p, index) => (
         <BreadcrumbItem key={index}>
           <BreadcrumbLink href={p.path}>{p.name}</BreadcrumbLink>

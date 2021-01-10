@@ -1,6 +1,5 @@
-import Image from "next/image";
-import { Box, Flex, Text, Heading } from "@chakra-ui/react";
-import { Slider, ThemeProvider } from "react-rapid-carousel";
+import { Box, Heading } from "@chakra-ui/react";
+import { Slider } from "react-rapid-carousel";
 import { useEffect, useState } from "react";
 import fetcher from "../../utils/fetcher";
 import BoxedCard from "./BoxedCard";
@@ -20,9 +19,17 @@ const ProductsSection = ({ path, limit, title, bg, color }) => {
   }, []);
 
   return (
-    <Box as="section" shadow="md" rounded="sm" pb={2} mb={8}>
-      <Box bg={bg} p={2}>
-        <Heading fontSize="md" color={color || "white"}>
+    <Box
+      as="section"
+      shadow="md"
+      rounded="md"
+      overflow="hidden"
+      pb={2}
+      mb={8}
+      bg="white"
+    >
+      <Box bg={bg} p={2} mb={2}>
+        <Heading fontSize="lg" color={color || "white"}>
           {title}
         </Heading>
       </Box>
