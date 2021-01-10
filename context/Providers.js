@@ -8,8 +8,8 @@ const Providers = ({ children }) => {
     <ChakraProvider>
       <ThemeProvider
         theme={{
-          dots: { 1: "white", 2: "gray" },
-          carets: { 1: "white", 2: "transparent" },
+          dots: { 1: "white", 2: "#333" },
+          carets: { 1: "white", 2: "#333" },
         }}
       >
         {children}
