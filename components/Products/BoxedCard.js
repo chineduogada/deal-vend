@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Text, Badge, Box } from "@chakra-ui/react";
 import formatPrice from "../../utils/formatPrice";
+import truncate from "../../utils/truncate";
 import Link from "next/link";
 
 const discount = 20;
@@ -41,12 +42,11 @@ const BoxedCard = ({ product }) => {
           <Box p={1}>
             <Text
               mb={1}
-              isTruncated
               _first={{
                 textTransform: "capitalize",
               }}
             >
-              {product.name}
+              {truncate(product.name, 19)}
             </Text>
             <Text
               fontWeight="bold"
