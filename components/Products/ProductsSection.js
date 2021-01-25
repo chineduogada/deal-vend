@@ -3,9 +3,7 @@ import { Slider } from "react-rapid-carousel";
 import BoxedCard from "./BoxedCard";
 // import useSWR from "swr";
 
-const ProductsSection = ({ data, title, bg, color }) => {
-  console.log(data);
-
+const ProductsSection = ({ data }) => {
   return (
     <Box
       as="section"

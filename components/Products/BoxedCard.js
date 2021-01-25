@@ -2,16 +2,15 @@ import Image from "next/image";
 import { Text, Badge, Box } from "@chakra-ui/react";
 import formatPrice from "../../utils/formatPrice";
 import truncate from "../../utils/truncate";
+import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import Link from "next/link";
 
 const discount = 20;
 const price = 7000;
 
-const newPrice = price - (discount / 100) * price;
-
 const BoxedCard = ({ product }) => {
   return (
-    <Link href={`/products/${product.slug}`}>
+    <Link href="/products/[slug]" as={`/products/${product.slug}`}>
       <a>
         <Box
           m="2px"
@@ -22,6 +21,8 @@ const BoxedCard = ({ product }) => {
             shadow: "md",
             transform: "scale(0.95)",
           }}
+          maxW="270px"
+          position="relative"
         >
           <Badge
             colorScheme="green"
@@ -55,7 +56,11 @@ const BoxedCard = ({ product }) => {
               lineHeight={1}
               isTruncated
             >
-              {formatPrice("en-NG", newPrice, "NGN")}
+              {formatPrice(
+                "en-NG",
+                calcDiscountPrice(product.price, product.discount),
+                "NGN"
+              )}
             </Text>
             <Text
               fontSize="sm"
