@@ -263,7 +263,13 @@ const Product = ({ product }) => {
 
             <Box bg="white" boxShadow="lg" rounded="md" p={2}>
               <Flex mb={2}>
-                <Box width="90px" rounded="md" overflow="hidden" height="90px">
+                <Box
+                  width="90px"
+                  rounded="md"
+                  overflow="hidden"
+                  height="90px"
+                  flexShrink={0}
+                >
                   <Image
                     src="/img/carousel-img-1.jpg"
                     width="90px"
@@ -277,7 +283,7 @@ const Product = ({ product }) => {
                       `${product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB
                     RAM, 8MP/5MP Camera, Android Q (Go Edition), 5000mah - Ice
                     Lake Green`,
-                      30
+                      17
                     )}
                   </Heading>
 
@@ -289,9 +295,12 @@ const Product = ({ product }) => {
                         "NGN"
                       )}
                     </Heading>
-                    <Text textDecor="line-through" mr={2}>
-                      {formatPrice("en-NG", product.price, "NGN")}
-                    </Text>
+                    <Flex alignItems="center">
+                      <Text textDecor="line-through" mr={2}>
+                        {formatPrice("en-NG", product.price, "NGN")}
+                      </Text>
+                      <Badge colorScheme="teal">- {product.discount}%</Badge>
+                    </Flex>
                   </Box>
                 </Box>
               </Flex>
