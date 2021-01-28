@@ -115,7 +115,7 @@ const Wrapper = ({
   renderHeaderDetail,
 }) => (
   <Flex>
-    <Stack spacing={2} flex="1" mr={3}>
+    <Stack spacing={2} flex="1" mr={4}>
       <Flex bg="white" rounded="md" boxShadow="lg" p={2}>
         <Flex minW={180} justifyContent="center" rounded="md">
           {renderGallery}
@@ -191,7 +191,7 @@ const Product = ({ product }) => {
           />
         }
         renderAside={
-          <Box position="sticky" top={2}>
+          <Box position="sticky" top={1}>
             <Box bg="white" boxShadow="lg" rounded="md" mb={2}>
               <Flex
                 justifyContent="space-between"
