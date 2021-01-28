@@ -481,28 +481,28 @@ export const getStaticProps = async (ctx) => {
 };
 
 export const getStaticPaths = async () => {
-  // let data = await Promise.all([
-  //   fetcher("/products/top-sales?fields=slug"),
-  //   fetcher("/products/top-cheap?fields=slug"),
-  //   fetcher("/products/deals-of-the-day?fields=slug"),
-  //   fetcher("/products/most-searched?fields=slug"),
-  // ]);
+  let data = await Promise.all([
+    fetcher("/products/top-sales?fields=slug"),
+    fetcher("/products/top-cheap?fields=slug"),
+    fetcher("/products/deals-of-the-day?fields=slug"),
+    fetcher("/products/most-searched?fields=slug"),
+  ]);
 
-  // data = data.map(({ data }) => {
-  //   data.products = data.products.map((product) => {
-  //     return { params: { slug: product.slug } };
-  //   });
+  data = data.map(({ data }) => {
+    data.products = data.products.map((product) => {
+      return { params: { slug: product.slug } };
+    });
 
-  //   return data.products;
-  // });
+    return data.products;
+  });
 
-  // const paths = data.reduce((previous, current) => {
-  //   return (previous = [...previous, ...current]);
-  // }, []);
+  const paths = data.reduce((previous, current) => {
+    return (previous = [...previous, ...current]);
+  }, []);
 
   return {
     fallback: true,
-    paths: [],
+    paths,
   };
 };
 
