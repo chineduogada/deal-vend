@@ -11,6 +11,7 @@ import {
 import { GrCart } from "react-icons/gr";
 import { BsCaretDownFill } from "react-icons/bs";
 import media from "../utils/media";
+import Cart from "./Cart";
 
 const Auth = () => {
   return (
@@ -34,9 +35,7 @@ const Auth = () => {
 
         <Button>Sign up</Button>
 
-        <IconButton fontSize="xl">
-          <GrCart />
-        </IconButton>
+        <Cart />
       </ButtonGroup>
     </>
   );
