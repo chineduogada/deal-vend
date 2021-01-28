@@ -51,7 +51,7 @@ const data = [
 
 const Footer = () => {
   return (
-    <Box bg="#333" color="gray.100" pb={5} rounded="md">
+    <Box bg="#333" color="gray.100" pb={5} rounded="md" mt={3}>
       <Box p={2} pb={4} bg="#222">
         <Brand />
       </Box>

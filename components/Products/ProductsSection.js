@@ -1,23 +1,9 @@
 import { Box, Heading } from "@chakra-ui/react";
 import { Slider } from "react-rapid-carousel";
-import { useEffect, useState } from "react";
-import fetcher from "../../utils/fetcher";
 import BoxedCard from "./BoxedCard";
 // import useSWR from "swr";
 
-const ProductsSection = ({ path, limit, title, bg, color }) => {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    const getProducts = async () => {
-      const { data } = await fetcher(`${path}`);
-
-      setData(data);
-    };
-
-    getProducts();
-  }, []);
-
+const ProductsSection = ({ data }) => {
   return (
     <Box
       as="section"
@@ -28,9 +14,13 @@ const ProductsSection = ({ path, limit, title, bg, color }) => {
       mb={8}
       bg="white"
     >
-      <Box bg={bg} p={2} mb={2}>
-        <Heading fontSize="lg" color={color || "white"}>
-          {title}
+      <Box bg={data.bg} p={2} mb={2}>
+        <Heading
+          fontSize="lg"
+          color={data.color || "white"}
+          textTransform="capitalize"
+        >
+          {data.title}
         </Heading>
       </Box>
       {data && (
