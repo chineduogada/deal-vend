@@ -19,7 +19,7 @@ const Auth = () => {
       <Box display={media("block", "none")}>
         <Menu>
           <MenuButton as={Button}>
-            <BsCaretDownFill />
+            <BsCaretDownFill /> re
           </MenuButton>
 
           <MenuList>
@@ -35,7 +35,13 @@ const Auth = () => {
 
         <Button>Sign up</Button>
 
-        <Cart />
+        <Cart
+          renderOpenButton={(onOpen) => (
+            <IconButton onClick={onOpen}>
+              <GrCart />
+            </IconButton>
+          )}
+        />
       </ButtonGroup>
     </>
   );

@@ -9,18 +9,21 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { GrCart } from "react-icons/gr";
 
-function Cart() {
+function Cart({ renderOpenButton }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Button onClick={onOpen}>
-        <GrCart />
-      </Button>
+      {renderOpenButton(onOpen)}
 
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+        closeOnOverlayClick={false}
+        size="4xl"
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Modal Title</ModalHeader>
