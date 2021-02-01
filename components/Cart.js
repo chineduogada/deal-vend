@@ -37,10 +37,15 @@ function Cart({ renderOpenButton }) {
         <ModalOverlay />
         <ModalContent mx={2}>
           <ModalHeader>
-            <Heading fontSize="3xl">Cart (4 items)</Heading>
+            <Heading
+              fontSize={{ base: "lg", md: "3xl" }}
+              // py={{ base: 0, md: 2 }}
+            >
+              Cart (4 items)
+            </Heading>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody bg="gray.100">
+          <ModalBody bg="gray.100" px={{ base: 1, md: 3 }}>
             <Stack spacing={2} height="300px" overflowY="auto" pb={5} pr={2}>
               <Grid
                 as="article"
@@ -51,6 +56,7 @@ function Cart({ renderOpenButton }) {
                 zIndex={1}
                 bg="gray.100"
                 color="gray.500"
+                d={{ base: "none", md: "grid" }}
               >
                 <GridItem>ITEM</GridItem>
                 <GridItem textAlign="center">QTY</GridItem>
@@ -85,9 +91,13 @@ function Cart({ renderOpenButton }) {
               (NON-REFUNDABLE in case of a return)
             </Text>
 
-            <ButtonGroup mt={2}>
-              <Button onClick={onClose}>Continue Shopping</Button>
-              <Button onClick={onClose}>Proceed to checkout</Button>
+            <ButtonGroup mt={2} flexWrap="wrap">
+              <Button onClick={onClose} w={{ base: "100%", md: "auto" }} mb={1}>
+                Continue Shopping
+              </Button>
+              <Button onClick={onClose} w={{ base: "100%", md: "auto" }}>
+                Proceed to checkout
+              </Button>
             </ButtonGroup>
           </ModalFooter>
         </ModalContent>
