@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  Badge,
   Box,
   Button,
   ButtonGroup,
@@ -10,16 +11,20 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { BiHeart, BiMinus, BiPlus, BiTrash } from "react-icons/bi";
+import { AiOutlineStop } from "react-icons/ai";
 import formatPrice from "../../utils/formatPrice";
+import truncate from "../../utils/truncate";
+import cartGridTemplateCols from "../gridTemplateCols/cartGridTemplateCols";
 
-const CartCard = ({}) => {
+const CartCard = ({ outOfStock }) => {
   return (
     <Grid
       as="article"
-      gridTemplateColumns="3.5fr .5fr 1fr .75fr"
+      gridTemplateColumns={outOfStock ? "3.5fr 2.5fr" : cartGridTemplateCols}
       rounded="md"
       boxShadow="md"
       bg="white"
+      opacity={outOfStock && 0.5}
     >
       <GridItem borderRight="1px" borderColor="gray.300" p={1}>
         <Flex>
@@ -43,7 +48,15 @@ const CartCard = ({}) => {
               <Link href="/sd">
                 <a>
                   <Text as="b" fontSize="sm">
-                    STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH
+                    {outOfStock
+                      ? truncate(
+                          "STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH",
+                          30
+                        )
+                      : truncate(
+                          "STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH",
+                          80
+                        )}
                   </Text>
                 </a>
               </Link>
@@ -62,53 +75,71 @@ const CartCard = ({}) => {
         </Flex>
       </GridItem>
 
-      <GridItem borderRight="1px" borderColor="gray.300" p={2}>
-        <Flex
-          h="100%"
-          flexDir="column"
-          alignItems="center"
-          justifyContent="center"
+      {outOfStock ? (
+        <GridItem
+          borderRight="1px"
+          borderColor="gray.300"
+          p={2}
+          d="grid"
+          placeItems="center"
         >
-          <Button size="sm">
-            <BiPlus />
-          </Button>
+          <Badge variant="outline" fontSize="xl" d="flex" alignItems="center">
+            <AiOutlineStop />
 
-          <Text as="b">1</Text>
+            <Text ml={4}>Out of stock</Text>
+          </Badge>
+        </GridItem>
+      ) : (
+        <>
+          <GridItem borderRight="1px" borderColor="gray.300" p={2}>
+            <Flex
+              h="100%"
+              flexDir="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Button size="sm">
+                <BiPlus />
+              </Button>
 
-          <Button size="sm">
-            <BiMinus />
-          </Button>
-        </Flex>
-      </GridItem>
+              <Text as="b">1</Text>
 
-      <GridItem borderRight="1px" borderColor="gray.300" p={1}>
-        <Flex
-          flexDir="column"
-          alignItems="center"
-          justifyContent="center"
-          h="100%"
-        >
-          <Text fontWeight="500" mb={2}>
-            {formatPrice("en-NG", 5500, "NGN")}
-          </Text>
+              <Button size="sm">
+                <BiMinus />
+              </Button>
+            </Flex>
+          </GridItem>
 
-          <Text
-            fontSize="sm"
-            fontWeight="500"
-            textDecor="line-through"
-            opacity={0.7}
-          >
-            {formatPrice("en-NG", 5500, "NGN")}
-          </Text>
-          <Text fontWeight="500" fontSize="xs">
-            Savings {formatPrice("en-NG", 5500, "NGN")}
-          </Text>
-        </Flex>
-      </GridItem>
+          <GridItem borderRight="1px" borderColor="gray.300" p={1}>
+            <Flex
+              flexDir="column"
+              alignItems="center"
+              justifyContent="center"
+              h="100%"
+            >
+              <Text fontWeight="500" mb={2}>
+                {formatPrice("en-NG", 5500, "NGN")}
+              </Text>
 
-      <GridItem d="grid" placeItems="center" p={1}>
-        <Text fontWeight="700">{formatPrice("en-NG", 15500, "NGN")}</Text>
-      </GridItem>
+              <Text
+                fontSize="sm"
+                fontWeight="500"
+                textDecor="line-through"
+                opacity={0.7}
+              >
+                {formatPrice("en-NG", 5500, "NGN")}
+              </Text>
+              <Text fontWeight="500" fontSize="xs">
+                Savings {formatPrice("en-NG", 5500, "NGN")}
+              </Text>
+            </Flex>
+          </GridItem>
+
+          <GridItem d="grid" placeItems="center" p={1}>
+            <Text fontWeight="700">{formatPrice("en-NG", 15500, "NGN")}</Text>
+          </GridItem>
+        </>
+      )}
     </Grid>
   );
 };

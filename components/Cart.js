@@ -17,6 +17,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import formatPrice from "../utils/formatPrice";
+import cartGridTemplateCols from "./gridTemplateCols/cartGridTemplateCols";
 import CartCard from "./Products/CartCard";
 
 function Cart({ renderOpenButton }) {
@@ -43,7 +44,7 @@ function Cart({ renderOpenButton }) {
             <Stack spacing={2} height="300px" overflowY="auto" pb={5} pr={2}>
               <Grid
                 as="article"
-                gridTemplateColumns="3.5fr .5fr 1fr .75fr"
+                gridTemplateColumns={cartGridTemplateCols}
                 fontWeight="bold"
                 pos="sticky"
                 top={0}
@@ -58,7 +59,7 @@ function Cart({ renderOpenButton }) {
               </Grid>
 
               <CartCard />
-              <CartCard />
+              <CartCard outOfStock />
               <CartCard />
               <CartCard />
             </Stack>
