@@ -69,10 +69,10 @@ function Cart({ renderOpenButton }) {
             <Flex
               alignItems="flex-end"
               justifyContent="space-between"
-              w="230px"
+              w="220px"
             >
               <Text as="b">Total:</Text>
-              <Text fontSize="lg" as="b" ml={2}>
+              <Text fontSize="2xl" as="b" ml={2}>
                 {formatPrice("en-NG", 133030, "NGN")}
               </Text>
             </Flex>
