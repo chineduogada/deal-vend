@@ -7,6 +7,7 @@ import {
   MenuList,
   MenuItem,
   Box,
+  Text,
 } from "@chakra-ui/react";
 import { GrCart } from "react-icons/gr";
 import { BsCaretDownFill } from "react-icons/bs";
@@ -19,13 +20,19 @@ const Auth = () => {
       <Box display={media("block", "none")}>
         <Menu>
           <MenuButton as={Button}>
-            <BsCaretDownFill /> re
+            <BsCaretDownFill />
           </MenuButton>
 
           <MenuList>
             <MenuItem>Login</MenuItem>
             <MenuItem>Sign up</MenuItem>
-            <MenuItem>Your Items Cart</MenuItem>
+            <MenuItem>
+              <Cart
+                renderOpenButton={(onOpen) => (
+                  <Text onClick={onOpen}>Your Items Cart</Text>
+                )}
+              />
+            </MenuItem>
           </MenuList>
         </Menu>
       </Box>
