@@ -176,7 +176,7 @@ const CartCard = ({ outOfStock }) => {
         >
           <SaveAndTrashBtn />
           <Counter
-            count={itemCount}
+            itemCount={itemCount}
             onIncrease={handleIncrease}
             onDecrease={handleDecrease}
             w="100px"
