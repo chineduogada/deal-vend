@@ -15,6 +15,7 @@ import { AiOutlineStop } from "react-icons/ai";
 import formatPrice from "../../utils/formatPrice";
 import truncate from "../../utils/truncate";
 import cartGridTemplateCols from "../gridTemplateCols/cartGridTemplateCols";
+import { useState } from "react";
 
 const SaveAndTrashBtn = ({ ...rest }) => (
   <ButtonGroup {...rest} mt={1} size="sm">
@@ -43,7 +44,7 @@ const SaveAndTrashBtn = ({ ...rest }) => (
   </ButtonGroup>
 );
 
-const Counter = ({ ...rest }) => (
+const Counter = ({ itemCount, onDecrease, onIncrease, ...rest }) => (
   <Flex
     {...rest}
     h="100%"
@@ -51,13 +52,13 @@ const Counter = ({ ...rest }) => (
     alignItems="center"
     justifyContent={{ base: "space-between", md: "center" }}
   >
-    <Button size="sm">
+    <Button size="sm" onClick={onIncrease}>
       <BiPlus />
     </Button>
 
-    <Text as="b">1</Text>
+    <Text as="b">{itemCount}</Text>
 
-    <Button size="sm">
+    <Button size="sm" onClick={onDecrease} disabled={itemCount == 1}>
       <BiMinus />
     </Button>
   </Flex>
@@ -85,6 +86,16 @@ const UnitPrice = ({ ...rest }) => (
 );
 
 const CartCard = ({ outOfStock }) => {
+  const [itemCount, setItemCount] = useState(1);
+
+  const handleDecrease = () => {
+    setItemCount((prevItemCount) => prevItemCount - 1);
+  };
+
+  const handleIncrease = () => {
+    setItemCount((prevItemCount) => prevItemCount + 1);
+  };
+
   return (
     <Box
       as="article"
@@ -164,7 +175,12 @@ const CartCard = ({ outOfStock }) => {
           alignItems="center"
         >
           <SaveAndTrashBtn />
-          <Counter w="100px" />
+          <Counter
+            count={itemCount}
+            onIncrease={handleIncrease}
+            onDecrease={handleDecrease}
+            w="100px"
+          />
         </Box>
       </GridItem>
 
@@ -184,7 +200,11 @@ const CartCard = ({ outOfStock }) => {
             borderColor="gray.300"
             p={2}
           >
-            <Counter />
+            <Counter
+              itemCount={itemCount}
+              onIncrease={handleIncrease}
+              onDecrease={handleDecrease}
+            />
           </GridItem>
 
           <GridItem
