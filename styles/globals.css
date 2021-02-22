@@ -16,13 +16,12 @@ a {
 }
 
 *::-webkit-scrollbar {
-  width: 0.65rem;
-  height: 0.65rem;
+  width: 0.75rem;
+  height: 0.75rem;
 }
 *::-webkit-scrollbar-track {
   background: #fafafa;
 }
 *::-webkit-scrollbar-thumb {
   background: #333;
-  border-radius: 10px;
 }

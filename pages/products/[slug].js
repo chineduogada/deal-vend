@@ -29,6 +29,7 @@ import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import formatPrice from "../../utils/formatPrice";
 import Gallery from "../../components/Gallery";
 import TipAbout from "../../components/TipAbout";
+import AddToCartButton from "../../components/AddToCartButton";
 
 const details = [
   {
@@ -305,9 +306,7 @@ const Product = ({ product }) => {
                 </Box>
               </Flex>
 
-              <Button w="100%" leftIcon={<FaCartPlus />}>
-                Add to cart
-              </Button>
+              <AddToCartButton product={product} />
             </Box>
           </Box>
         }
@@ -359,9 +358,7 @@ const Product = ({ product }) => {
                 </Flex>
               </Box>
 
-              <Button w="100%" leftIcon={<FaCartPlus />}>
-                Add to cart
-              </Button>
+              <AddToCartButton product={product} />
             </Stack>
           </Box>
         }
