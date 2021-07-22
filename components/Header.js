@@ -1,4 +1,4 @@
-import { Flex, HStack, Box } from "@chakra-ui/react";
+import { Flex, HStack, Box, forwardRef } from "@chakra-ui/react";
 import Brand from "./Brand";
 import SearchBar from "./SearchBar";
 import Auth from "./Auth";
@@ -42,16 +42,18 @@ const Center = () => (
 
 const Bottom = ({ paths }) => <Breadcrumb paths={paths} />;
 
-const Header = ({ showHeaderCenter, breadcrumbPaths }) => {
-  return (
-    <Box mb={5}>
-      <Top />
+const Header = forwardRef(
+  ({ showHeaderCenter, breadcrumbPaths, ...rest }, ref) => {
+    return (
+      <Box mb={5} ref={ref} {...rest}>
+        <Top />
 
-      {showHeaderCenter && <Center />}
+        {showHeaderCenter && <Center />}
 
-      {breadcrumbPaths && <Bottom paths={breadcrumbPaths} />}
-    </Box>
-  );
-};
+        {breadcrumbPaths && <Bottom paths={breadcrumbPaths} />}
+      </Box>
+    );
+  }
+);
 
 export default Header;

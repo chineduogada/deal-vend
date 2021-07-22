@@ -51,42 +51,44 @@ const data = [
 
 const Footer = ({ ...rest }) => {
   return (
-    <Box
-      bg="#333"
-      color="gray.100"
-      pb={5}
-      rounded="md"
-      overflow="hidden"
-      mt={3}
-      {...rest}
-    >
-      <Box p={2} pb={4} bg="#222">
-        <Brand />
-      </Box>
+    <Box as="footer" pb={3}>
+      <Box
+        bg="#333"
+        color="gray.100"
+        pb={5}
+        rounded="md"
+        overflow="hidden"
+        mt={3}
+        {...rest}
+      >
+        <Box p={2} pb={4} bg="#222">
+          <Brand />
+        </Box>
 
-      <Flex p={2} wrap="wrap">
-        {data.map((list, index) => (
-          <Box
-            flex="1"
-            key={index}
-            mb={7}
-            minW={200}
-            textAlign={{ base: "center", md: "left" }}
-          >
-            <Heading as="h3" fontSize="sm" mb={3} textTransform="uppercase">
-              {list.title}
-            </Heading>
-            <List spacing={1}>
-              {list.items.map((item, idx) => (
-                <ListItem fontSize="sm" key={idx}>
-                  <ListIcon fontSize="lg">{item.icon}</ListIcon>
-                  {item.text}
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        ))}
-      </Flex>
+        <Flex p={2} wrap="wrap">
+          {data.map((list, index) => (
+            <Box
+              flex="1"
+              key={index}
+              mb={7}
+              minW={200}
+              textAlign={{ base: "center", md: "left" }}
+            >
+              <Heading as="h3" fontSize="sm" mb={3} textTransform="uppercase">
+                {list.title}
+              </Heading>
+              <List spacing={1}>
+                {list.items.map((item, idx) => (
+                  <ListItem fontSize="sm" key={idx}>
+                    <ListIcon fontSize="lg">{item.icon}</ListIcon>
+                    {item.text}
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          ))}
+        </Flex>
+      </Box>
     </Box>
   );
 };

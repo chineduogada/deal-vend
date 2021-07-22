@@ -30,6 +30,7 @@ import formatPrice from "../../utils/formatPrice";
 import Gallery from "../../components/Gallery";
 import TipAbout from "../../components/TipAbout";
 import AddToCartButton from "../../components/AddToCartButton";
+import { useInView } from "react-intersection-observer";
 
 const details = [
   {
@@ -109,41 +110,13 @@ const WhatInTheBox = [
   { amount: 2, name: "ear pud" },
 ];
 
-const Wrapper = ({
-  renderGallery,
-  children,
-  renderAside,
-  renderHeaderDetail,
-}) => (
-  <Flex>
-    <Stack spacing={2} flex="1" mr={{ base: 0, md: 4 }}>
-      <Flex
-        bg="white"
-        rounded="md"
-        boxShadow="lg"
-        p={2}
-        flexDir={{ base: "column", md: "row" }}
-      >
-        <Flex minW={180} justifyContent={{ md: "center" }} rounded="md">
-          {renderGallery}
-        </Flex>
-
-        <Box ml={2} flex="1">
-          {renderHeaderDetail}
-        </Box>
-      </Flex>
-
-      {children}
-    </Stack>
-
-    <Box w="230px" d={{ base: "none", md: "block" }}>
-      {renderAside}
-    </Box>
-  </Flex>
-);
-
 const Product = ({ product }) => {
   const { isFallback } = useRouter();
+
+  const headerDetailObserver = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
 
   if (isFallback) {
     return (
@@ -181,7 +154,7 @@ const Product = ({ product }) => {
   }
 
   const renderAside = () => (
-    <Box position="sticky" top={1}>
+    <Box position="sticky" top="65px">
       <Box bg="white" boxShadow="lg" rounded="md" mb={{ base: 0, md: 2 }}>
         <Flex
           justifyContent="space-between"
@@ -252,7 +225,9 @@ const Product = ({ product }) => {
         boxShadow="lg"
         rounded="md"
         p={2}
-        d={{ base: "none", md: "block" }}
+        transition=".5s"
+        opacity={!headerDetailObserver.inView ? 1 : 0}
+        display={{ base: "none", md: "block" }}
       >
         <Flex mb={2}>
           <Box
@@ -298,12 +273,6 @@ const Product = ({ product }) => {
     </Box>
   );
 
-  const renderLove = (props) => (
-    <IconButton isRound {...props} colorScheme="blue">
-      <BsHeart />
-    </IconButton>
-  );
-
   product.images = [
     "/img/carousel-img-1.jpg",
     "/img/carousel-img-2.jpg",
@@ -321,76 +290,7 @@ const Product = ({ product }) => {
         renderGallery={<Gallery product={product} />}
         renderAside={renderAside()}
         renderHeaderDetail={
-          <Box>
-            <Flex justifyContent="space-between" mb={3} mt={{ base: 4, md: 0 }}>
-              <Text
-                as="h2"
-                fontSize={{ base: "lg", md: "2xl" }}
-                fontWeight="400"
-              >
-                {product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB RAM,
-                8MP/5MP Camera, Android Q (Go Edition), 5000mah - Ice Lake Green
-              </Text>
-
-              {renderLove({ d: { base: "none", md: "flex" } })}
-            </Flex>
-
-            <Stack spacing={1}>
-              <Flex>
-                <Text as="span" d={{ base: "none", md: "inline-block" }}>
-                  Brand:
-                </Text>
-
-                <Text fontWeight="bold" mx={{ md: 2 }} opacity={0.8}>
-                  {product.brand || "Tecno | Similar products from Tecno"}
-                </Text>
-              </Flex>
-
-              <Flex
-                alignItems="center"
-                fontSize="sm"
-                borderBottom="1px"
-                borderColor="gray.300"
-                mb={2}
-                pb={2}
-              >
-                <Rating value={product.ratingsAverage} />
-                <Text ml={1}>({product.ratingsQuantity || 30} ratings)</Text>
-              </Flex>
-
-              <Box mb={4}>
-                <Heading as="h3" fontSize="2xl">
-                  {formatPrice(
-                    "en-NG",
-                    calcDiscountPrice(product.price, product.discount),
-                    "NGN"
-                  )}
-                </Heading>
-                <Flex alignItems="center">
-                  <Text textDecor="line-through" mr={2}>
-                    {formatPrice("en-NG", product.price, "NGN")}
-                  </Text>
-                  <Badge colorScheme="teal">- {product.discount}%</Badge>
-                </Flex>
-              </Box>
-
-              <Flex
-                bg="white"
-                p={{ base: 2, md: 0 }}
-                pos={{ base: "fixed", md: "unset" }}
-                left={2}
-                bottom={0}
-                w={{ base: "calc(100vw - 16px)", md: "auto" }}
-                zIndex={1}
-                boxShadow={{ base: "0 -10px 5px rgba(0,0,0,0.1)", md: "none" }}
-                roundedTop="md"
-              >
-                <AddToCartButton product={product} />
-
-                {renderLove({ d: { base: "flex", md: "none" }, ml: 2 })}
-              </Flex>
-            </Stack>
-          </Box>
+          <HeaderDetail product={product} observer={headerDetailObserver} />
         }
       >
         <Box d={{ base: "block", md: "none" }}>{renderAside()}</Box>
@@ -494,6 +394,116 @@ const Product = ({ product }) => {
     </Layout>
   );
 };
+
+const HeaderDetail = ({ product, observer }) => {
+  const renderLove = (props) => (
+    <IconButton isRound {...props} colorScheme="blue">
+      <BsHeart />
+    </IconButton>
+  );
+
+  return (
+    <Box ref={observer.ref}>
+      <Flex justifyContent="space-between" mb={3} mt={{ base: 4, md: 0 }}>
+        <Text as="h2" fontSize={{ base: "lg", md: "2xl" }} fontWeight="400">
+          {product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB RAM, 8MP/5MP
+          Camera, Android Q (Go Edition), 5000mah - Ice Lake Green
+        </Text>
+
+        {renderLove({ d: { base: "none", md: "flex" } })}
+      </Flex>
+
+      <Stack spacing={1}>
+        <Flex>
+          <Text as="span" d={{ base: "none", md: "inline-block" }}>
+            Brand:
+          </Text>
+
+          <Text fontWeight="bold" mx={{ md: 2 }} opacity={0.8}>
+            {product.brand || "Tecno | Similar products from Tecno"}
+          </Text>
+        </Flex>
+
+        <Flex
+          alignItems="center"
+          fontSize="sm"
+          borderBottom="1px"
+          borderColor="gray.300"
+          mb={2}
+          pb={2}
+        >
+          <Rating value={product.ratingsAverage} />
+          <Text ml={1}>({product.ratingsQuantity || 30} ratings)</Text>
+        </Flex>
+
+        <Box mb={4}>
+          <Heading as="h3" fontSize="2xl">
+            {formatPrice(
+              "en-NG",
+              calcDiscountPrice(product.price, product.discount),
+              "NGN"
+            )}
+          </Heading>
+          <Flex alignItems="center">
+            <Text textDecor="line-through" mr={2}>
+              {formatPrice("en-NG", product.price, "NGN")}
+            </Text>
+            <Badge colorScheme="teal">- {product.discount}%</Badge>
+          </Flex>
+        </Box>
+
+        <Flex
+          bg="white"
+          p={{ base: 2, md: 0 }}
+          pos={{ base: "fixed", md: "unset" }}
+          left={2}
+          bottom={0}
+          w={{ base: "calc(100vw - 16px)", md: "auto" }}
+          zIndex={1}
+          boxShadow={{ base: "0 -10px 5px rgba(0,0,0,0.1)", md: "none" }}
+          roundedTop="md"
+        >
+          <AddToCartButton product={product} />
+
+          {renderLove({ d: { base: "flex", md: "none" }, ml: 2 })}
+        </Flex>
+      </Stack>
+    </Box>
+  );
+};
+
+const Wrapper = ({
+  renderGallery,
+  children,
+  renderAside,
+  renderHeaderDetail,
+}) => (
+  <Flex>
+    <Stack spacing={2} flex="1" mr={{ base: 0, md: 4 }}>
+      <Flex
+        bg="white"
+        rounded="md"
+        boxShadow="lg"
+        p={2}
+        flexDir={{ base: "column", md: "row" }}
+      >
+        <Flex minW={180} justifyContent={{ md: "center" }} rounded="md">
+          {renderGallery}
+        </Flex>
+
+        <Box ml={2} flex="1">
+          {renderHeaderDetail}
+        </Box>
+      </Flex>
+
+      {children}
+    </Stack>
+
+    <Box w="230px" d={{ base: "none", md: "block" }}>
+      {renderAside}
+    </Box>
+  </Flex>
+);
 
 export const getStaticProps = async (ctx) => {
   const { slug } = ctx.params;
