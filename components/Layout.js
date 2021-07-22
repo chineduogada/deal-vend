@@ -35,6 +35,7 @@ const Layout = ({
                 w="100%"
                 maxW="calc(900px - 16px)"
                 bg={{ base: "white", md: "auto" }}
+                borderBottom={{ base: "1px solid #ddd", md: "none" }}
                 p={{ base: 2, md: 0 }}
                 left={{ base: 0, md: "auto" }}
               />
@@ -43,12 +44,7 @@ const Layout = ({
             {children}
           </Box>
 
-          <Footer
-            // className={`footer ${
-            //   !headerObserver.inView ? "footer--inView" : ""
-            // }`}
-            {...footerProps}
-          />
+          <Footer {...footerProps} />
         </Box>
       </Box>
     )
