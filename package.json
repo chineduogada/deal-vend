@@ -20,7 +20,7 @@
     "react-icons": "^4.1.0",
     "react-intersection-observer": "^8.31.0",
     "react-query": "^3.5.11",
-    "react-rapid-carousel": "^2.0.0",
+    "react-rapid-carousel": "^2.0.1",
     "swr": "^0.4.0"
   }
 }
