@@ -1,42 +1,73 @@
-import { useState } from "react";
-import Image from "next/image";
 import { Box, Flex } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import {
+  Fader,
+  ThemeProvider as FaderThemeProvider,
+} from "react-rapid-carousel";
+import { Image } from "./Image";
 
-const Gallery = ({ images }) => {
-  const [currentImage, setCurrentImage] = useState(images[0]);
-
-  const handleImageClick = (image) => {
-    setCurrentImage(image);
-  };
+const Gallery = ({ product }) => {
+  const allImages = product.images;
+  // product.images.sort((image) => {
+  //   return image.isPrimary ? -1 : 1;
+  // }) || [];
 
   return (
-    <Box>
-      <Box rounded="md" overflow="hidden" width={200} height={200} mb={1}>
-        <Image layout="fixed" width={200} height={200} src={currentImage} />
-      </Box>
-
-      <Flex width={200} overflowX="auto" pb={1}>
-        {images.map((image) => (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleImageClick.bind(null, image)}
+    product && (
+      <>
+        {/* For Mobile */}
+        <Box d={{ base: "block", md: "none" }} w="100%">
+          <FaderThemeProvider
+            theme={{
+              dots: { 1: "#3182ce", 2: "#eee" },
+              carets: { 1: "#3182ce", 2: "#eee" },
+            }}
           >
-            <Box
-              rounded="sm"
-              overflow="hidden"
-              flexShrink={0}
-              mr={1}
-              width={70}
-              height={70}
-            >
-              <Image layout="fixed" width={70} height={70} src={image} />
-            </Box>
-          </motion.button>
-        ))}
-      </Flex>
-    </Box>
+            <Fader dots buttons>
+              {allImages.map((image, index) => (
+                <Flex justifyContent="center" key={index}>
+                  <Image
+                    w="280px"
+                    h="230px"
+                    isProduct
+                    // src={image.imageUrl}
+                    src={image}
+                  />
+                </Flex>
+              ))}
+            </Fader>
+          </FaderThemeProvider>
+        </Box>
+
+        {/* From Tab */}
+        <Box d={{ base: "none", md: "block" }}>
+          <Image
+            w="250px"
+            h="200px"
+            isProduct
+            src={
+              // product.primaryImage?.imageUrl || "/images/products/default.png"
+              product.images[0]
+            }
+          />
+
+          {product.images.length ? (
+            <Flex overflowX="auto" w="250px" py={2}>
+              {product.images.map((image, index) => (
+                <Image
+                  key={index}
+                  w="100px"
+                  h="100px"
+                  isProduct
+                  mr={3}
+                  src={image}
+                  // src={image.imageUrl}
+                />
+              ))}
+            </Flex>
+          ) : null}
+        </Box>
+      </>
+    )
   );
 };
 

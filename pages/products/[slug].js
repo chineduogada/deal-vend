@@ -30,6 +30,7 @@ import formatPrice from "../../utils/formatPrice";
 import Gallery from "../../components/Gallery";
 import TipAbout from "../../components/TipAbout";
 import AddToCartButton from "../../components/AddToCartButton";
+import { useInView } from "react-intersection-observer";
 
 const details = [
   {
@@ -109,33 +110,13 @@ const WhatInTheBox = [
   { amount: 2, name: "ear pud" },
 ];
 
-const Wrapper = ({
-  renderGallery,
-  children,
-  renderAside,
-  renderHeaderDetail,
-}) => (
-  <Flex>
-    <Stack spacing={2} flex="1" mr={4}>
-      <Flex bg="white" rounded="md" boxShadow="lg" p={2}>
-        <Flex minW={180} justifyContent="center" rounded="md">
-          {renderGallery}
-        </Flex>
-
-        <Box ml={2} flex="1">
-          {renderHeaderDetail}
-        </Box>
-      </Flex>
-
-      {children}
-    </Stack>
-
-    <Box w="230px">{renderAside}</Box>
-  </Flex>
-);
-
 const Product = ({ product }) => {
   const { isFallback } = useRouter();
+
+  const headerDetailObserver = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
 
   if (isFallback) {
     return (
@@ -172,197 +153,148 @@ const Product = ({ product }) => {
     );
   }
 
-  return (
-    <Layout
-      breadcrumbPaths={[
-        { name: product.category, path: "/hi" },
-        { name: product.slug, path: "/sd" },
-      ]}
-    >
-      <Wrapper
-        renderGallery={
-          <Gallery
-            images={[
-              "/img/carousel-img-1.jpg",
-              "/img/carousel-img-2.jpg",
-              "/img/carousel-img-1.jpg",
-              "/img/carousel-img-2.jpg",
-              "/img/carousel-img-1.jpg",
-            ]}
-          />
-        }
-        renderAside={
-          <Box position="sticky" top={1}>
-            <Box bg="white" boxShadow="lg" rounded="md" mb={2}>
-              <Flex
-                justifyContent="space-between"
-                alignItems="center"
-                borderBottom="1px"
-                borderColor="gray.300"
-                p={2}
-              >
-                <Heading as="h5" p={2} fontSize="md" textTransform="uppercase">
-                  Seller Information
-                </Heading>
-                <FaChevronRight />
-              </Flex>
+  const renderAside = () => (
+    <Box position="sticky" top="65px">
+      <Box bg="white" boxShadow="lg" rounded="md" mb={{ base: 0, md: 2 }}>
+        <Flex
+          justifyContent="space-between"
+          alignItems="center"
+          borderBottom="1px"
+          borderColor="gray.300"
+          p={2}
+        >
+          <Heading as="h5" p={2} fontSize="md" textTransform="uppercase">
+            Seller Information
+          </Heading>
+          <FaChevronRight />
+        </Flex>
 
-              <Flex
-                p={2}
-                justifyContent="space-between"
-                borderBottom="1px"
-                borderColor="gray.300"
-              >
-                <Box>
-                  <Heading as="h6" fontSize="sm" mb={2}>
-                    Quick Connect
-                  </Heading>
+        <Flex
+          p={2}
+          justifyContent="space-between"
+          borderBottom="1px"
+          borderColor="gray.300"
+        >
+          <Box>
+            <Heading as="h6" fontSize="sm" mb={2}>
+              Quick Connect
+            </Heading>
 
-                  <Text fontSize="xs">
-                    <Text as="b">300</Text> Followers
-                  </Text>
+            <Text fontSize="xs">
+              <Text as="b">300</Text> Followers
+            </Text>
 
-                  <Text fontSize="xs">
-                    <Text as="b">90%</Text> Seller score
-                  </Text>
-                </Box>
+            <Text fontSize="xs">
+              <Text as="b">90%</Text> Seller score
+            </Text>
+          </Box>
 
-                <Button alignSelf="flex-end">Follow</Button>
-              </Flex>
+          <Button alignSelf="flex-end" disabled>
+            Follow
+          </Button>
+        </Flex>
 
-              <Box p={2}>
-                <Heading
-                  as="h6"
-                  fontSize="sm"
-                  mb={2}
-                  d="flex"
-                  alignItems="center"
-                >
-                  Seller Performance
-                  <TipAbout>
-                    To help you decide on the best offer we have several key
-                    metrics below to help you with your decision
-                  </TipAbout>
-                </Heading>
+        <Box p={2}>
+          <Heading as="h6" fontSize="sm" mb={2} d="flex" alignItems="center">
+            Seller Performance
+            <TipAbout>
+              To help you decide on the best offer we have several key metrics
+              below to help you with your decision
+            </TipAbout>
+          </Heading>
 
-                <List spacing={1}>
-                  <ListItem fontSize="xs">
-                    <ListIcon color="green.500" fontSize="xl" mr={1}>
-                      <MdStars />
-                    </ListIcon>
-                    Order Fulfillment Rate: <b>Good</b>
-                  </ListItem>
-                  <ListItem fontSize="xs">
-                    <ListIcon color="green.500" fontSize="xl" mr={1}>
-                      <MdStars />
-                    </ListIcon>
-                    Quality Score: <b>Excellent</b>
-                  </ListItem>
-                </List>
-              </Box>
-            </Box>
+          <List spacing={1}>
+            <ListItem fontSize="xs">
+              <ListIcon color="green.500" fontSize="xl" mr={1}>
+                <MdStars />
+              </ListIcon>
+              Order Fulfillment Rate: <b>Good</b>
+            </ListItem>
+            <ListItem fontSize="xs">
+              <ListIcon color="green.500" fontSize="xl" mr={1}>
+                <MdStars />
+              </ListIcon>
+              Quality Score: <b>Excellent</b>
+            </ListItem>
+          </List>
+        </Box>
+      </Box>
 
-            <Box bg="white" boxShadow="lg" rounded="md" p={2}>
-              <Flex mb={2}>
-                <Box
-                  width="90px"
-                  rounded="md"
-                  overflow="hidden"
-                  height="90px"
-                  flexShrink={0}
-                >
-                  <Image
-                    src="/img/carousel-img-1.jpg"
-                    width="90px"
-                    height="90px"
-                  />
-                </Box>
+      <Box
+        bg="white"
+        boxShadow="lg"
+        rounded="md"
+        p={2}
+        transition=".5s"
+        opacity={!headerDetailObserver.inView ? 1 : 0}
+        display={{ base: "none", md: "block" }}
+      >
+        <Flex mb={2}>
+          <Box
+            width="90px"
+            rounded="md"
+            overflow="hidden"
+            height="90px"
+            flexShrink={0}
+          >
+            <Image src="/img/carousel-img-1.jpg" width="90px" height="90px" />
+          </Box>
 
-                <Box flex="1" ml={1}>
-                  <Heading as="h5" fontSize="md" fontWeight="400" mb={2}>
-                    {truncate(
-                      `${product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB
+          <Box flex="1" ml={1}>
+            <Heading as="h5" fontSize="md" fontWeight="400" mb={2}>
+              {truncate(
+                `${product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB
                     RAM, 8MP/5MP Camera, Android Q (Go Edition), 5000mah - Ice
                     Lake Green`,
-                      17
-                    )}
-                  </Heading>
+                17
+              )}
+            </Heading>
 
-                  <Box mb={4}>
-                    <Heading as="h4" fontSize="lg">
-                      {formatPrice(
-                        "en-NG",
-                        calcDiscountPrice(product.price, product.discount),
-                        "NGN"
-                      )}
-                    </Heading>
-                    <Flex alignItems="center">
-                      <Text textDecor="line-through" mr={2}>
-                        {formatPrice("en-NG", product.price, "NGN")}
-                      </Text>
-                      <Badge colorScheme="teal">- {product.discount}%</Badge>
-                    </Flex>
-                  </Box>
-                </Box>
+            <Box mb={4}>
+              <Heading as="h4" fontSize="lg">
+                {formatPrice(
+                  "en-NG",
+                  calcDiscountPrice(product.price, product.discount),
+                  "NGN"
+                )}
+              </Heading>
+              <Flex alignItems="center">
+                <Text textDecor="line-through" mr={2}>
+                  {formatPrice("en-NG", product.price, "NGN")}
+                </Text>
+                <Badge colorScheme="teal">- {product.discount}%</Badge>
               </Flex>
-
-              <AddToCartButton product={product} />
             </Box>
           </Box>
-        }
+        </Flex>
+
+        <AddToCartButton product={product} />
+      </Box>
+    </Box>
+  );
+
+  product.images = [
+    "/img/carousel-img-1.jpg",
+    "/img/carousel-img-2.jpg",
+    "/img/carousel-img-1.jpg",
+    "/img/carousel-img-2.jpg",
+    "/img/carousel-img-1.jpg",
+  ];
+
+  return (
+    <Layout
+      breadcrumbPaths={[{ name: "Home", path: "/" }, { name: product.slug }]}
+      footerProps={{ mb: { base: "70px", md: 0 } }}
+    >
+      <Wrapper
+        renderGallery={<Gallery product={product} />}
+        renderAside={renderAside()}
         renderHeaderDetail={
-          <Box>
-            <Flex justifyContent="space-between" mb={3}>
-              <Heading as="h2" fontSize="2xl" fontWeight="400">
-                {product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB RAM,
-                8MP/5MP Camera, Android Q (Go Edition), 5000mah - Ice Lake Green
-              </Heading>
-              <IconButton isRound>
-                <BsHeart />
-              </IconButton>
-            </Flex>
-
-            <Stack spacing={1}>
-              <Text d="flex">
-                Brand:
-                <Text fontWeight="bold" mx={2} opacity={0.8}>
-                  {product.brand || "Tecno | Similar products from Tecno"}
-                </Text>
-              </Text>
-
-              <Flex
-                alignItems="center"
-                fontSize="sm"
-                borderBottom="1px"
-                borderColor="gray.300"
-                mb={2}
-                pb={2}
-              >
-                <Rating value={product.ratingsAverage} />
-                <Text ml={1}>({product.ratingsQuantity || 30} ratings)</Text>
-              </Flex>
-
-              <Box mb={4}>
-                <Heading as="h3" fontSize="2xl">
-                  {formatPrice(
-                    "en-NG",
-                    calcDiscountPrice(product.price, product.discount),
-                    "NGN"
-                  )}
-                </Heading>
-                <Flex alignItems="center">
-                  <Text textDecor="line-through" mr={2}>
-                    {formatPrice("en-NG", product.price, "NGN")}
-                  </Text>
-                  <Badge colorScheme="teal">- {product.discount}%</Badge>
-                </Flex>
-              </Box>
-
-              <AddToCartButton product={product} />
-            </Stack>
-          </Box>
+          <HeaderDetail product={product} observer={headerDetailObserver} />
         }
       >
+        <Box d={{ base: "block", md: "none" }}>{renderAside()}</Box>
+
         {details && (
           <Box bg="white" rounded="md" boxShadow="lg">
             <Heading
@@ -379,11 +311,11 @@ const Product = ({ product }) => {
 
             <Box p={2}>
               {details.map((detail, index) => (
-                <Box key={index} mb={2}>
-                  <Heading as="h6" fontSize="sm">
+                <Box key={index} mb={3}>
+                  <Heading as="h6" size="sm">
                     {detail.title}
                   </Heading>
-                  <Text fontSize="sm">{detail.description}</Text>
+                  <Text size="sm">{detail.description}</Text>
                 </Box>
               ))}
             </Box>
@@ -406,7 +338,7 @@ const Product = ({ product }) => {
               </Heading>
 
               <Grid
-                templateColumns="repeat(3, 1fr)"
+                templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
                 columnGap={1}
                 rowGap={1}
                 p={2}
@@ -462,6 +394,116 @@ const Product = ({ product }) => {
     </Layout>
   );
 };
+
+const HeaderDetail = ({ product, observer }) => {
+  const renderLove = (props) => (
+    <IconButton isRound {...props} colorScheme="blue">
+      <BsHeart />
+    </IconButton>
+  );
+
+  return (
+    <Box ref={observer.ref}>
+      <Flex justifyContent="space-between" mb={3} mt={{ base: 4, md: 0 }}>
+        <Text as="h2" fontSize={{ base: "lg", md: "2xl" }} fontWeight="400">
+          {product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB RAM, 8MP/5MP
+          Camera, Android Q (Go Edition), 5000mah - Ice Lake Green
+        </Text>
+
+        {renderLove({ d: { base: "none", md: "flex" } })}
+      </Flex>
+
+      <Stack spacing={1}>
+        <Flex>
+          <Text as="span" d={{ base: "none", md: "inline-block" }}>
+            Brand:
+          </Text>
+
+          <Text fontWeight="bold" mx={{ md: 2 }} opacity={0.8}>
+            {product.brand || "Tecno | Similar products from Tecno"}
+          </Text>
+        </Flex>
+
+        <Flex
+          alignItems="center"
+          fontSize="sm"
+          borderBottom="1px"
+          borderColor="gray.300"
+          mb={2}
+          pb={2}
+        >
+          <Rating value={product.ratingsAverage} />
+          <Text ml={1}>({product.ratingsQuantity || 30} ratings)</Text>
+        </Flex>
+
+        <Box mb={4}>
+          <Heading as="h3" fontSize="2xl">
+            {formatPrice(
+              "en-NG",
+              calcDiscountPrice(product.price, product.discount),
+              "NGN"
+            )}
+          </Heading>
+          <Flex alignItems="center">
+            <Text textDecor="line-through" mr={2}>
+              {formatPrice("en-NG", product.price, "NGN")}
+            </Text>
+            <Badge colorScheme="teal">- {product.discount}%</Badge>
+          </Flex>
+        </Box>
+
+        <Flex
+          bg="white"
+          p={{ base: 2, md: 0 }}
+          pos={{ base: "fixed", md: "unset" }}
+          left={2}
+          bottom={0}
+          w={{ base: "calc(100vw - 16px)", md: "auto" }}
+          zIndex={1}
+          boxShadow={{ base: "0 -10px 5px rgba(0,0,0,0.1)", md: "none" }}
+          roundedTop="md"
+        >
+          <AddToCartButton product={product} />
+
+          {renderLove({ d: { base: "flex", md: "none" }, ml: 2 })}
+        </Flex>
+      </Stack>
+    </Box>
+  );
+};
+
+const Wrapper = ({
+  renderGallery,
+  children,
+  renderAside,
+  renderHeaderDetail,
+}) => (
+  <Flex>
+    <Stack spacing={2} flex="1" mr={{ base: 0, md: 4 }}>
+      <Flex
+        bg="white"
+        rounded="md"
+        boxShadow="lg"
+        p={2}
+        flexDir={{ base: "column", md: "row" }}
+      >
+        <Flex minW={180} justifyContent={{ md: "center" }} rounded="md">
+          {renderGallery}
+        </Flex>
+
+        <Box ml={2} flex="1">
+          {renderHeaderDetail}
+        </Box>
+      </Flex>
+
+      {children}
+    </Stack>
+
+    <Box w="230px" d={{ base: "none", md: "block" }}>
+      {renderAside}
+    </Box>
+  </Flex>
+);
 
 export const getStaticProps = async (ctx) => {
   const { slug } = ctx.params;
