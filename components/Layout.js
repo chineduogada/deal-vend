@@ -3,7 +3,12 @@ import Header from "./Header";
 import Footer from "./Footer";
 import usePageReady from "../hooks/usePageReady";
 
-const Layout = ({ children, showHeaderCenter, breadcrumbPaths }) => {
+const Layout = ({
+  children,
+  showHeaderCenter,
+  breadcrumbPaths,
+  footerProps,
+}) => {
   const pageReady = usePageReady();
 
   return (
@@ -17,7 +22,7 @@ const Layout = ({ children, showHeaderCenter, breadcrumbPaths }) => {
 
           <Box as="main">{children}</Box>
 
-          <Footer />
+          <Footer {...footerProps} />
         </Box>
       </Box>
     )

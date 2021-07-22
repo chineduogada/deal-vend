@@ -23,7 +23,7 @@ const AddToCartButton = ({ product }) => {
   const existingItem = state.find((item) => item.id === product.id);
 
   return existingItem ? (
-    <Flex alignItems="center" justifyContent="space-between">
+    <Flex alignItems="center" justifyContent="space-between" w="100%">
       <IconButton variant="ghost">
         <AiOutlinePlus />
       </IconButton>

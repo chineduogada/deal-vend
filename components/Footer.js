@@ -49,9 +49,17 @@ const data = [
   },
 ];
 
-const Footer = () => {
+const Footer = ({ ...rest }) => {
   return (
-    <Box bg="#333" color="gray.100" pb={5} rounded="md" mt={3}>
+    <Box
+      bg="#333"
+      color="gray.100"
+      pb={5}
+      rounded="md"
+      overflow="hidden"
+      mt={3}
+      {...rest}
+    >
       <Box p={2} pb={4} bg="#222">
         <Brand />
       </Box>
