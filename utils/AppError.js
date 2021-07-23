@@ -5,7 +5,8 @@ class AppError extends Error {
 
     // If there is a `response` and the `status` is within the `400` range?
     const isClientErr =
-      err.response?.status === "fail" && err.response?.status === "error";
+      err.response?.status >= 400 && err.response?.status < 500;
+
     // If `isClientErr` is `false`? this will be `true`
     const isUnexpectedErr = !isClientErr;
 

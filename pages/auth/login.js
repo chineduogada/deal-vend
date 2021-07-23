@@ -5,14 +5,15 @@ import {
   Grid,
   Heading,
   Input,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import { MdHttp } from "react-icons/md";
-import Layout from "../components/Layout";
-import { Link } from "../components/Link";
-import useToast from "../hooks/useToast";
-import http from "../utils/http";
+import Layout from "components/Layout";
+import { Link } from "components/Link";
+import useToast from "hooks/useToast";
+import http from "utils/http";
 
 const MiniSection = ({ heading, children, ...rest }) => (
   <Box {...rest} as="section" pos="relative">
@@ -26,8 +27,23 @@ const MiniSection = ({ heading, children, ...rest }) => (
 
 const LoginPage = () => {
   const toast = useToast();
+  const router = useRouter();
+  const redirectTo = router.query.redirectTo;
 
   const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  let isMount = true;
+  let timeoutId = useRef();
+
+  useEffect(() => {
+    return () => {
+      isMount = false;
+      clearTimeout(timeoutId.current);
+    };
+  }, []);
 
   const handleInputType = ({ target: { value, id } }) => {
     setFormData((prev) => ({ ...prev, [id]: value }));
@@ -37,9 +53,33 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      await http.post("/users/auth/login", formData);
+      setLoading(true);
+
+      // await http.post("/users/auth/login", formData);
+      await http.get("/products");
+
+      if (isMount) {
+        setLoading(false);
+        setSuccess(true);
+
+        toast.display({
+          description: "Successfully created an account",
+          status: "success",
+          duration: 1500,
+        });
+
+        timeoutId.current = setTimeout(() => router.push(redirectTo));
+      }
     } catch (error) {
-      toast.display({ description: error.message });
+      if (isMount) {
+        setLoading(false);
+
+        toast.display({
+          description: error.message.includes("confirmPassword")
+            ? "ConfirmPassword must match Password"
+            : error.message,
+        });
+      }
     }
   };
 
@@ -69,22 +109,26 @@ const LoginPage = () => {
                 onChange={handleInputType}
               />
 
-              <Flex
+              {/* <Flex
                 justifyContent={{ base: "center", md: "flex-end" }}
                 my={5}
                 color="green.500"
               >
                 <Link href="/forgot-password">Forgot password?</Link>
-              </Flex>
+              </Flex> */}
 
               <Button
-                pos={{ base: "unset", md: "absolute" }}
+                pos={{ base: "relative", md: "absolute" }}
+                mt={{ base: 10, md: 0 }}
+                left={0}
                 bottom={0}
                 w="100%"
                 colorScheme="green"
                 type="submit"
+                disabled={loading || success}
               >
-                LOGIN
+                {(loading || success) && <Spinner mr={2} />}
+                {success ? "REDIRECTING..." : "LOGIN"}
               </Button>
 
               <Flex
@@ -93,7 +137,9 @@ const LoginPage = () => {
                 color="green.500"
                 my={5}
               >
-                <Link href="/signup">Don't have an account?</Link>
+                <Link href={`/auth/signup?redirectTo=${redirectTo}`}>
+                  Don't have an account?
+                </Link>
               </Flex>
             </Box>
           </MiniSection>
@@ -110,8 +156,8 @@ const LoginPage = () => {
             </Text>
 
             <Box pos="absolute" bottom={0} w="100%">
-              <Link href="/signup" mute>
-                <Button w="100%" colorScheme="green" type="submit">
+              <Link href={`/auth/signup?redirectTo=${redirectTo}`} mute>
+                <Button w="100%" colorScheme="blackAlpha" type="submit">
                   REGISTER VIA EMAIL
                 </Button>
               </Link>

@@ -11,11 +11,15 @@ import {
 } from "@chakra-ui/react";
 import { GrCart } from "react-icons/gr";
 import { BsCaretDownFill } from "react-icons/bs";
-import media from "../utils/media";
-import Cart from "./Cart";
-import { Link } from "./Link";
+import media from "utils/media";
+import Cart from "../Cart";
+import { Link } from "../Link";
+import { useRouter } from "next/router";
 
-const Auth = () => {
+const NavbarAuthControls = () => {
+  const router = useRouter();
+  const redirectTo = router.asPath;
+
   return (
     <>
       <Box display={media("block", "none")}>
@@ -26,10 +30,12 @@ const Auth = () => {
 
           <MenuList>
             <MenuItem>
-              <Link href="/login">Login</Link>
+              <Link href={`/auth/login?redirectTo=${redirectTo}`}>Login</Link>
             </MenuItem>
             <MenuItem>
-              <Link href="/signup">Sign up</Link>
+              <Link href={`/auth/signup?redirectTo=${redirectTo}`}>
+                Sign up
+              </Link>
             </MenuItem>
             <MenuItem>
               <Cart
@@ -43,11 +49,11 @@ const Auth = () => {
       </Box>
 
       <ButtonGroup display={media("none", "flex")}>
-        <Link href="/login" mute>
+        <Link href={`/auth/login?redirectTo=${redirectTo}`} mute>
           <Button>Login</Button>
         </Link>
 
-        <Link href="/signup" mute>
+        <Link href={`/auth/signup?redirectTo=${redirectTo}`} mute>
           <Button>Sign up</Button>
         </Link>
 
@@ -63,4 +69,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default NavbarAuthControls;
