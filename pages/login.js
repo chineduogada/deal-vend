@@ -1,0 +1,126 @@
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Heading,
+  Input,
+  Text,
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { MdHttp } from "react-icons/md";
+import Layout from "../components/Layout";
+import { Link } from "../components/Link";
+import useToast from "../hooks/useToast";
+import http from "../utils/http";
+
+const MiniSection = ({ heading, children, ...rest }) => (
+  <Box {...rest} as="section" pos="relative">
+    <Heading as="h1" size="md" textAlign="center" color="green.500" mb={10}>
+      {heading}
+    </Heading>
+
+    {children}
+  </Box>
+);
+
+const LoginPage = () => {
+  const toast = useToast();
+
+  const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const handleInputType = ({ target: { value, id } }) => {
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await http.post("/users/auth/login", formData);
+    } catch (error) {
+      toast.display({ description: error.message });
+    }
+  };
+
+  return (
+    <Layout>
+      <Box minH="70vh">
+        <Grid
+          templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+          columnGap={10}
+          py={10}
+        >
+          <MiniSection heading="Login your account">
+            <Box as="form" onSubmit={handleSubmit} minH="220px">
+              <Input
+                placeholder="E-mail"
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputType}
+                mb={5}
+              />
+              <Input
+                placeholder="Password"
+                id="password"
+                type="password"
+                value={formData.password}
+                onChange={handleInputType}
+              />
+
+              <Flex
+                justifyContent={{ base: "center", md: "flex-end" }}
+                my={5}
+                color="green.500"
+              >
+                <Link href="/forgot-password">Forgot password?</Link>
+              </Flex>
+
+              <Button
+                pos={{ base: "unset", md: "absolute" }}
+                bottom={0}
+                w="100%"
+                colorScheme="green"
+                type="submit"
+              >
+                LOGIN
+              </Button>
+
+              <Flex
+                justifyContent="center"
+                d={{ base: "block", md: "none" }}
+                color="green.500"
+                my={5}
+              >
+                <Link href="/signup">Don't have an account?</Link>
+              </Flex>
+            </Box>
+          </MiniSection>
+
+          <MiniSection
+            d={{ base: "none", md: "block" }}
+            heading="Create your DealVend account"
+            borderLeft="1px"
+            borderColor="gray.100"
+          >
+            <Text>
+              Create your Dealvend customer account in just a few clicks! You
+              can register for absolutely free using your e-mail address
+            </Text>
+
+            <Box pos="absolute" bottom={0} w="100%">
+              <Link href="/signup" mute>
+                <Button w="100%" colorScheme="green" type="submit">
+                  REGISTER VIA EMAIL
+                </Button>
+              </Link>
+            </Box>
+          </MiniSection>
+        </Grid>
+      </Box>
+    </Layout>
+  );
+};
+
+export default LoginPage;

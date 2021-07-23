@@ -13,6 +13,7 @@ import { GrCart } from "react-icons/gr";
 import { BsCaretDownFill } from "react-icons/bs";
 import media from "../utils/media";
 import Cart from "./Cart";
+import { Link } from "./Link";
 
 const Auth = () => {
   return (
@@ -24,8 +25,12 @@ const Auth = () => {
           </MenuButton>
 
           <MenuList>
-            <MenuItem>Login</MenuItem>
-            <MenuItem>Sign up</MenuItem>
+            <MenuItem>
+              <Link href="/login">Login</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link href="/signup">Sign up</Link>
+            </MenuItem>
             <MenuItem>
               <Cart
                 renderOpenButton={(onOpen) => (
@@ -38,9 +43,13 @@ const Auth = () => {
       </Box>
 
       <ButtonGroup display={media("none", "flex")}>
-        <Button>Login</Button>
+        <Link href="/login" mute>
+          <Button>Login</Button>
+        </Link>
 
-        <Button>Sign up</Button>
+        <Link href="/signup" mute>
+          <Button>Sign up</Button>
+        </Link>
 
         <Cart
           renderOpenButton={(onOpen) => (
