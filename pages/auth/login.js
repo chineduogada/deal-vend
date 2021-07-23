@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Layout from "components/Layout";
 import { Link } from "components/Link";
 import useToast from "hooks/useToast";
@@ -28,7 +28,7 @@ const MiniSection = ({ heading, children, ...rest }) => (
 const LoginPage = () => {
   const toast = useToast();
   const router = useRouter();
-  const redirectTo = router.query.redirectTo;
+  const redirectTo = router.query.redirectTo || "/";
 
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -55,29 +55,26 @@ const LoginPage = () => {
     try {
       setLoading(true);
 
-      // await http.post("/users/auth/login", formData);
-      await http.get("/products");
+      await http.post("/users/auth/login", formData);
 
       if (isMount) {
         setLoading(false);
         setSuccess(true);
 
         toast.display({
-          description: "Successfully created an account",
+          description: "Successfully logged in",
           status: "success",
           duration: 1500,
         });
 
-        timeoutId.current = setTimeout(() => router.push(redirectTo));
+        timeoutId.current = setTimeout(() => router.replace(redirectTo));
       }
     } catch (error) {
       if (isMount) {
         setLoading(false);
 
         toast.display({
-          description: error.message.includes("confirmPassword")
-            ? "ConfirmPassword must match Password"
-            : error.message,
+          description: error.message,
         });
       }
     }

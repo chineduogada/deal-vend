@@ -18,7 +18,14 @@ import { useRouter } from "next/router";
 
 const NavbarAuthControls = () => {
   const router = useRouter();
-  const redirectTo = router.asPath;
+  const redirectTo =
+    router.asPath.includes("signup") || router.asPath.includes("login")
+      ? router.query.redirectTo
+      : router.asPath;
+
+  const handleMenuItemClick = () => {
+    router.push(`/auth/login?redirectTo=${redirectTo}`);
+  };
 
   return (
     <>
@@ -29,14 +36,8 @@ const NavbarAuthControls = () => {
           </MenuButton>
 
           <MenuList>
-            <MenuItem>
-              <Link href={`/auth/login?redirectTo=${redirectTo}`}>Login</Link>
-            </MenuItem>
-            <MenuItem>
-              <Link href={`/auth/signup?redirectTo=${redirectTo}`}>
-                Sign up
-              </Link>
-            </MenuItem>
+            <MenuItem onClick={handleMenuItemClick}>Login</MenuItem>
+            <MenuItem onClick={handleMenuItemClick}>Sign up</MenuItem>
             <MenuItem>
               <Cart
                 renderOpenButton={(onOpen) => (

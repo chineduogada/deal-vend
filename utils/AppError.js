@@ -39,8 +39,12 @@ class AppError extends Error {
       }
 
       // This Client Error is coming from an `identified server`(a backend server that is meant for this Application)
-      if (err.response.data.message) {
-        let { message } = err.response.data;
+
+      console.log(err.response);
+
+      if (err.response.data.message || err.response.data.err?.message) {
+        let message =
+          err.response.data.message || err.response.data.err?.message;
 
         // Checks if `message` is an `Array`
         const isMessageArr = Array.isArray(message);

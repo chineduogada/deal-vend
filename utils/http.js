@@ -1,8 +1,5 @@
 import axios from "axios";
-// import cookie from "utils/cookie";
 import AppError from "./AppError";
-
-// const token = cookie.getToken();
 
 // Intercept all Errors
 axios.interceptors.response.use(null, (err) => {
@@ -11,14 +8,19 @@ axios.interceptors.response.use(null, (err) => {
   return Promise.reject(error);
 });
 
-export const baseURL = process.env.NEXT_PUBLIC_DEALVEND_API_BASE_URI;
+export const baseURL =
+  process.env.NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_DEALVEND_API_BASE_URI_LOCAL
+    : process.env.NEXT_PUBLIC_DEALVEND_API_BASE_URI;
 
 const defaultOptions = (explicitToken) => ({
   // timeout's the request in a minute by default
   timeout: 60 * 1000,
-  // headers: {
-  //   authorization: `Bearer ${explicitToken || token}`,
-  // },
+  withCredentials: true,
+  credentials: "include",
+  headers: {
+    authorization: `Bearer ${explicitToken}`,
+  },
 });
 
 const buildOptions = (options) => ({

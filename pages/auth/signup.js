@@ -28,7 +28,7 @@ const MiniSection = ({ heading, children, ...rest }) => (
 const SignupPage = () => {
   const toast = useToast();
   const router = useRouter();
-  const redirectTo = router.query.redirectTo;
+  const redirectTo = router.query.redirectTo || "/";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -59,8 +59,7 @@ const SignupPage = () => {
     try {
       setLoading(true);
 
-      // await http.post("/users/auth/signup", formData);
-      await http.get("/products");
+      await http.post("/users/auth/signup", formData);
 
       if (isMount) {
         setLoading(false);
@@ -72,7 +71,7 @@ const SignupPage = () => {
           duration: 1500,
         });
 
-        timeoutId.current = setTimeout(() => router.push(redirectTo));
+        timeoutId.current = setTimeout(() => router.replace(redirectTo));
       }
     } catch (error) {
       if (isMount) {
