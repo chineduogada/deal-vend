@@ -8,6 +8,7 @@ import {
   MenuItem,
   Box,
   Text,
+  Flex,
 } from "@chakra-ui/react";
 import { GrCart } from "react-icons/gr";
 import { BsCaretDownFill } from "react-icons/bs";
@@ -15,56 +16,95 @@ import media from "utils/media";
 import Cart from "../Cart";
 import { Link } from "../Link";
 import { useRouter } from "next/router";
+import useAuth from "hooks/useAuth";
 
 const NavbarAuthControls = () => {
+  const auth = useAuth();
+
   const router = useRouter();
   const redirectTo =
     router.asPath.includes("signup") || router.asPath.includes("login")
-      ? router.query.redirectTo
+      ? router.query.redirectTo || "/"
       : router.asPath;
 
-  const handleMenuItemClick = () => {
-    router.push(`/auth/login?redirectTo=${redirectTo}`);
+  console.log(router.asPath);
+
+  const getAuthControlsHref = (ctx) => `/auth/${ctx}?redirectTo=${redirectTo}`;
+
+  const renderedCartButton = (
+    <Cart
+      renderOpenButton={(onOpen) => (
+        <Button onClick={onOpen} ml={2}>
+          <GrCart />
+        </Button>
+      )}
+    />
+  );
+
+  const MenuItemLink = ({ ctx, href, children }) => {
+    return (
+      <MenuItem
+        {...(router.asPath.includes(ctx) ? {} : { as: "a" })}
+        href={href || getAuthControlsHref(ctx)}
+      >
+        {children}
+      </MenuItem>
+    );
   };
 
   return (
     <>
-      <Box display={media("block", "none")}>
+      <Flex display={media("block", "none")}>
         <Menu>
           <MenuButton as={Button}>
             <BsCaretDownFill />
           </MenuButton>
 
           <MenuList>
-            <MenuItem onClick={handleMenuItemClick}>Login</MenuItem>
-            <MenuItem onClick={handleMenuItemClick}>Sign up</MenuItem>
-            <MenuItem>
-              <Cart
-                renderOpenButton={(onOpen) => (
-                  <Text onClick={onOpen}>Your Items Cart</Text>
-                )}
-              />
-            </MenuItem>
+            {auth.me ? (
+              <>
+                <MenuItemLink ctx="profile" href="/profile">
+                  View profile
+                </MenuItemLink>
+                <MenuItem onClick={auth.handleLogout}>Logout</MenuItem>
+              </>
+            ) : (
+              <>
+                <MenuItemLink ctx="login">Login</MenuItemLink>
+                <MenuItemLink ctx="signup">Sign up</MenuItemLink>
+              </>
+            )}
           </MenuList>
         </Menu>
-      </Box>
+
+        {renderedCartButton}
+      </Flex>
 
       <ButtonGroup display={media("none", "flex")}>
-        <Link href={`/auth/login?redirectTo=${redirectTo}`} mute>
-          <Button>Login</Button>
-        </Link>
+        {auth.me ? (
+          <Menu>
+            <MenuButton as={Button}>Hi, {auth.me.firstName}</MenuButton>
 
-        <Link href={`/auth/signup?redirectTo=${redirectTo}`} mute>
-          <Button>Sign up</Button>
-        </Link>
+            <MenuList>
+              <MenuItemLink ctx="profile" href="/profile">
+                View profile
+              </MenuItemLink>
+              <MenuItem onClick={auth.handleLogout}>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        ) : (
+          <>
+            <Link href={`/auth/login?redirectTo=${redirectTo}`} mute>
+              <Button>Login</Button>
+            </Link>
 
-        <Cart
-          renderOpenButton={(onOpen) => (
-            <IconButton onClick={onOpen}>
-              <GrCart />
-            </IconButton>
-          )}
-        />
+            <Link href={`/auth/signup?redirectTo=${redirectTo}`} mute>
+              <Button>Sign up</Button>
+            </Link>
+
+            {renderedCartButton}
+          </>
+        )}
       </ButtonGroup>
     </>
   );

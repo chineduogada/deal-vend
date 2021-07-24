@@ -14,6 +14,7 @@ import Layout from "components/Layout";
 import { Link } from "components/Link";
 import useToast from "hooks/useToast";
 import http, { login } from "utils/http";
+import useAuth from "hooks/useAuth";
 
 const MiniSection = ({ heading, children, ...rest }) => (
   <Box {...rest} as="section" pos="relative">
@@ -26,6 +27,7 @@ const MiniSection = ({ heading, children, ...rest }) => (
 );
 
 const LoginPage = () => {
+  const auth = useAuth();
   const toast = useToast();
   const router = useRouter();
   const redirectTo = router.query.redirectTo || "/";
@@ -56,6 +58,7 @@ const LoginPage = () => {
       setLoading(true);
 
       await login(formData);
+      await auth.handleFetchCurrentUser();
 
       if (isMount) {
         setLoading(false);

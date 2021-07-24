@@ -14,15 +14,6 @@ const Layout = ({
 }) => {
   const pageReady = usePageReady();
 
-  const auth = useAuth();
-
-  // Handle fetching currentUser only once after login
-  useEffect(() => {
-    if (!auth.me) {
-      auth.handleFetchCurrentUser();
-    }
-  }, [auth.me]);
-
   const headerObserver = useInView({
     /* Optional options */
     threshold: 0,
