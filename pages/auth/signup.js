@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import Layout from "components/Layout";
 import { Link } from "components/Link";
 import useToast from "hooks/useToast";
-import http from "utils/http";
+import http, { signup } from "utils/http";
 
 const MiniSection = ({ heading, children, ...rest }) => (
   <Box {...rest} as="section" pos="relative">
@@ -59,7 +59,7 @@ const SignupPage = () => {
     try {
       setLoading(true);
 
-      await http.post("/users/auth/signup", formData);
+      await signup(formData);
 
       if (isMount) {
         setLoading(false);

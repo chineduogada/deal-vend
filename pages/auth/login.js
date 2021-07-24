@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import Layout from "components/Layout";
 import { Link } from "components/Link";
 import useToast from "hooks/useToast";
-import http from "utils/http";
+import http, { login } from "utils/http";
 
 const MiniSection = ({ heading, children, ...rest }) => (
   <Box {...rest} as="section" pos="relative">
@@ -55,7 +55,7 @@ const LoginPage = () => {
     try {
       setLoading(true);
 
-      await http.post("/users/auth/login", formData);
+      await login(formData);
 
       if (isMount) {
         setLoading(false);

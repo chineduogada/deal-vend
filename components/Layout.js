@@ -3,6 +3,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import usePageReady from "../hooks/usePageReady";
 import { useInView } from "react-intersection-observer";
+import useAuth from "hooks/useAuth";
+import { useEffect } from "react";
 
 const Layout = ({
   children,
@@ -11,6 +13,15 @@ const Layout = ({
   footerProps,
 }) => {
   const pageReady = usePageReady();
+
+  const auth = useAuth();
+
+  // Handle fetching currentUser only once after login
+  useEffect(() => {
+    if (!auth.me) {
+      auth.handleFetchCurrentUser();
+    }
+  }, [auth.me]);
 
   const headerObserver = useInView({
     /* Optional options */

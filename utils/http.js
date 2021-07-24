@@ -18,9 +18,9 @@ const defaultOptions = (explicitToken) => ({
   timeout: 60 * 1000,
   withCredentials: true,
   credentials: "include",
-  headers: {
-    authorization: `Bearer ${explicitToken}`,
-  },
+  // headers: {
+  //   authorization: `Bearer ${explicitToken}`,
+  // },
 });
 
 const buildOptions = (options) => ({
@@ -38,6 +38,29 @@ const http = {
     axios.patch(options?.url || buildURL(path), data, buildOptions(options)),
   delete: (path, options) =>
     axios.delete(options?.url || buildURL(path), buildOptions(options)),
+};
+
+// Helpers
+export const currentUser = async () => {
+  const {
+    data: {
+      data: { user: data },
+    },
+  } = await http.get("/users/me");
+
+  return data;
+};
+
+export const logout = async () => {
+  await http.post("/users/auth/logout");
+};
+
+export const login = async (body) => {
+  await http.post("/users/auth/login", body);
+};
+
+export const signup = async (body) => {
+  await http.post("/users/auth/signup", body);
 };
 
 export default http;
