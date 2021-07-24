@@ -41,7 +41,6 @@ const Layout = ({
           <Box as="main">
             {!headerObserver.inView && (
               <Header
-                showHeaderCenter={showHeaderCenter}
                 className={"header--inView"}
                 w="100%"
                 maxW="calc(900px - 16px)"
