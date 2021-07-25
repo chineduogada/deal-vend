@@ -15,17 +15,26 @@ import { Link } from "components/Link";
 import useToast from "hooks/useToast";
 import { login } from "utils/http";
 import useAuth from "hooks/useAuth";
+import { Loader } from "components/Feedback";
 
 const ProfilePage = () => {
   const auth = useAuth();
   const toast = useToast();
   const router = useRouter();
 
+  useEffect(() => {
+    if (!auth.me) router.replace("/auth/login?redirectTo=/profile");
+  }, [auth.me]);
+
   return (
     <Layout>
-      <Box minH="70vh">
-        <Heading>{auth.me?.name}</Heading>
-      </Box>
+      {auth.me ? (
+        <Box minH="70vh">
+          <Heading>{auth.me?.name}</Heading>
+        </Box>
+      ) : (
+        <Loader />
+      )}
     </Layout>
   );
 };
