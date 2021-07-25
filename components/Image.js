@@ -39,7 +39,7 @@ export const Image = ({
 };
 
 export const Avatar = ({ lg, md, ...rest }) => {
-  const src = "/images/avatar/avatar.png";
+  const src = "/img/avatar.png";
 
   const getSize = lg
     ? {
