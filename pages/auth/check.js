@@ -1,7 +1,7 @@
-import { Loader } from "components/pages";
 import useAuth from "hooks/useAuth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Loader } from "components/Feedback";
 
 // Persist the user on fresh signin
 
@@ -11,23 +11,18 @@ const AuthCheckPage = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      auth.persistUserToClient();
+      // auth.handleFetchCurrentUser();
     }, 3000);
   }, []);
 
   useEffect(() => {
-    console.log("sdsdsds", router.query.redirect);
-    if (auth.isAuthenticated && router.query.redirect) {
-      console.log(router.query.redirect);
-
-      location.replace(router.query.redirect);
+    if (auth.me) {
+      console.log(auth.me);
+      router.replace("/");
     }
-  }, [auth.isAuthenticated, router.query.redirect]);
+  }, [auth.me]);
 
-  return (<Loader
-      h="100vh"
-      // message="Authenticating please wait..."
-    />);
+  return <Loader h="100vh" />;
 };
 
 export default AuthCheckPage;

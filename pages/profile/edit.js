@@ -8,15 +8,13 @@ import useForm from "hooks/useForm";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { BsGear } from "react-icons/bs";
-import breakpoints from "theme/breakpoints";
-import buildSEO from "utils/buildSEO";
 import http from "utils/http";
 
-const pageSEO = buildSEO("Edit Profile", "...");
-const breadcrumb = [
-  { text: "My Profile", link: "/account" },
-  { text: "Edit Account" },
-];
+// const pageSEO = buildSEO("Edit Profile", "...");
+// const breadcrumb = [
+//   { text: "My Profile", link: "/account" },
+//   { text: "Edit Account" },
+// ];
 
 const MiniSection = ({ children, p, pt, ...rest }) => (
   <Box maxW="768px" mx="auto" p={p} pt={pt} mb={0} pos="relative">
@@ -151,8 +149,10 @@ const ProfileSettingPage = () => {
   };
 
   return (
-    <Layout SEO={pageSEO} breadcrumb={breadcrumb}>
-      {auth.me ? (
+    <Layout
+    // SEO={pageSEO} breadcrumb={breadcrumb}
+    >
+      {auth.me && (
         <>
           <MiniSection mt={10} p={{ base: 4, md: 10 }} pt={{ md: 0 }}>
             <Flex
@@ -188,8 +188,6 @@ const ProfileSettingPage = () => {
             />
           </MiniSection>
         </>
-      ) : (
-        <AccountAuth />
       )}
     </Layout>
   );
