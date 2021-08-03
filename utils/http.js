@@ -24,11 +24,7 @@ const buildOptions = (options) => ({
   ...defaultOptions(options?.token),
   ...options,
 });
-const buildURL = (path) => {
-  console.log(baseURL, path);
-
-  return baseURL + path;
-};
+const buildURL = (path) => baseURL + path;
 
 const http = {
   get: (path, options) =>
