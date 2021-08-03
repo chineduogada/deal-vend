@@ -3,6 +3,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import usePageReady from "../hooks/usePageReady";
 import { useInView } from "react-intersection-observer";
+import useAuth from "hooks/useAuth";
+import { useEffect } from "react";
 
 const Layout = ({
   children,
@@ -30,7 +32,6 @@ const Layout = ({
           <Box as="main">
             {!headerObserver.inView && (
               <Header
-                showHeaderCenter={showHeaderCenter}
                 className={"header--inView"}
                 w="100%"
                 maxW="calc(900px - 16px)"

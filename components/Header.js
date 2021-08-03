@@ -1,11 +1,11 @@
 import { Flex, HStack, Box, forwardRef } from "@chakra-ui/react";
-import Brand from "./Brand";
-import SearchBar from "./SearchBar";
-import Auth from "./Auth";
-import Categories from "./Categories";
-import Carousel from "./Carousel";
-import media from "../utils/media";
-import Breadcrumb from "./Breadcrumb";
+import Brand from "components/Brand";
+import SearchBar from "components/SearchBar";
+import NavbarAuthControls from "components/Auth/Navbar";
+import Categories from "components/Categories";
+import Carousel from "components/Carousel";
+import Breadcrumb from "components/Breadcrumb";
+import media from "utils/media";
 
 const Top = () => (
   <>
@@ -24,7 +24,7 @@ const Top = () => (
         <SearchBar />
       </Box>
 
-      <Auth />
+      <NavbarAuthControls />
     </HStack>
 
     <Box d={{ base: "block", md: "none" }} mt={2}>
