@@ -8,7 +8,10 @@ axios.interceptors.response.use(null, (err) => {
   return Promise.reject(error);
 });
 
-export const baseURL = process.env.NEXT_PUBLIC_DEALVEND_API_BASE_URI;
+export const baseURL =
+  process.env.NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_DEALVEND_API_BASE_URI_LOCAL
+    : process.env.NEXT_PUBLIC_DEALVEND_API_BASE_URI;
 
 const defaultOptions = (explicitToken) => ({
   // timeout's the request in a minute by default
@@ -24,7 +27,11 @@ const buildOptions = (options) => ({
   ...defaultOptions(options?.token),
   ...options,
 });
-const buildURL = (path) => baseURL + path;
+const buildURL = (path) => {
+  console.log(baseURL, path);
+
+  return baseURL + path;
+};
 
 const http = {
   get: (path, options) =>
