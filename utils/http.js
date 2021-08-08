@@ -129,7 +129,13 @@ export const decreaseCartItem = async (body) => {
 };
 
 export const deleteCartItem = async (body) => {
-  await http.patch("/cart", { ...body, query: "delete" });
+  const {
+    data: {
+      data: { cart },
+    },
+  } = await http.patch("/cart", { ...body, query: "delete" });
+
+  return cart;
 };
 
 export default http;

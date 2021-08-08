@@ -1,5 +1,4 @@
-import { Button, Flex, IconButton, Text } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { Button, Flex, IconButton, Spinner, Text } from "@chakra-ui/react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
 import useCart from "../useCart";
@@ -9,17 +8,16 @@ import { globalState } from "./Layout";
 const AddToCartButton = ({ product }) => {
   const { cart } = valtio.useSnapshot(globalState);
 
-  const { handleAddProduct, handleDecreaseQty, handleIncreaseQty } = useCart();
+  const { handleAddProduct, handleDecreaseQty, handleIncreaseQty, isLoading } =
+    useCart();
 
   product = {
+    ...product,
     productId: product.id,
-    name: product.name,
-    price: product.price,
-    image: product.image,
   };
 
   const existingItem = cart?.products?.find(
-    (product) => product.productId === product.productId
+    (p) => p.productId === product.productId
   );
 
   return existingItem ? (
@@ -31,7 +29,10 @@ const AddToCartButton = ({ product }) => {
         <AiOutlinePlus />
       </IconButton>
 
-      <Text as="b">{existingItem.quantity}</Text>
+      <Flex alignItems="center">
+        {isLoading && <Spinner size="sm" mr={2} />}
+        <Text as="b">{existingItem.quantity}</Text>
+      </Flex>
 
       <IconButton
         variant="ghost"
@@ -46,6 +47,8 @@ const AddToCartButton = ({ product }) => {
       w="100%"
       leftIcon={<FaCartPlus />}
       onClick={handleAddProduct.bind(null, product)}
+      disabled={isLoading}
+      colorScheme="green"
     >
       Add to cart
     </Button>

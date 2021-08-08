@@ -70,8 +70,6 @@ const useCart = () => {
       setLoading(true);
       const cart = await getCart();
 
-      console.log(cart);
-
       globalState.cart = cart[0];
     } catch (err) {
       toast.display({ description: err.message });
@@ -81,7 +79,16 @@ const useCart = () => {
   };
 
   const handleClearCart = async () => {
-    await handleRequest(clearCart);
+    try {
+      setLoading(true);
+      await clearCart();
+
+      globalState.cart = {};
+    } catch (err) {
+      toast.display({ description: err.message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {

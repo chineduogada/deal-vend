@@ -9,7 +9,8 @@ export default function Home({ data }) {
     {
       title: "top sales",
       path: "/products",
-      bg: "red.500",
+      color: "black",
+      // bg: "red.500",
     },
     {
       title: "top cheap",
@@ -19,12 +20,14 @@ export default function Home({ data }) {
     {
       title: "deals of the day",
       path: "/products",
-      bg: "teal.500",
+      color: "black",
+      // bg: "teal.500",
     },
     {
       title: "most searched",
       path: "/products",
-      bg: "red.500",
+      color: "black",
+      // bg: "red.500",
     },
   ];
 
@@ -36,12 +39,14 @@ export default function Home({ data }) {
 
       <Layout showHeaderCenter breadcrumbPaths={null}>
         <Box>
-          {data.map(({ data }, index) => (
-            <ProductsSection
-              data={{ ...productSectionData[index], ...data }}
-              key={index}
-            />
-          ))}
+          {data.map(({ data }, index) =>
+            data.products.length ? (
+              <ProductsSection
+                data={{ ...productSectionData[index], ...data }}
+                key={index}
+              />
+            ) : null
+          )}
         </Box>
       </Layout>
     </>

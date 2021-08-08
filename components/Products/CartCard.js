@@ -7,6 +7,7 @@ import {
   Flex,
   GridItem,
   IconButton,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { BiHeart, BiMinus, BiPlus, BiTrash } from "react-icons/bi";
@@ -50,7 +51,7 @@ const SaveAndTrashBtn = ({ disabled, handleRemoveProduct, ...rest }) => (
   </ButtonGroup>
 );
 
-const Counter = ({ itemCount, onDecrease, onIncrease, ...rest }) => (
+const Counter = ({ itemCount, onDecrease, onIncrease, isLoading, ...rest }) => (
   <Flex
     {...rest}
     h="100%"
@@ -62,7 +63,7 @@ const Counter = ({ itemCount, onDecrease, onIncrease, ...rest }) => (
       <BiPlus />
     </Button>
 
-    <Text as="b">{itemCount}</Text>
+    <Text as="b">{isLoading ? <Spinner size="sm" /> : itemCount}</Text>
 
     <Button size="sm" onClick={onDecrease} disabled={itemCount == 1}>
       <BiMinus />
@@ -94,7 +95,12 @@ const UnitPrice = ({ price, ...rest }) => (
 const CartCard = ({ product }) => {
   const { outOfStock, price, quantity, name } = product;
 
-  const { handleRemoveProduct } = useCart();
+  const {
+    handleRemoveProduct,
+    handleIncreaseQty,
+    handleDecreaseQty,
+    isLoading,
+  } = useCart();
 
   return (
     <Box
@@ -168,8 +174,9 @@ const CartCard = ({ product }) => {
           />
           <Counter
             itemCount={quantity}
-            // onIncrease={handleIncrease}
-            // onDecrease={handleDecrease}
+            onIncrease={handleIncreaseQty.bind(null, product)}
+            onDecrease={handleDecreaseQty.bind(null, product)}
+            isLoading={isLoading}
             w="100px"
           />
         </Box>
@@ -192,8 +199,9 @@ const CartCard = ({ product }) => {
           >
             <Counter
               itemCount={quantity}
-              // onIncrease={handleIncrease}
-              // onDecrease={handleDecrease}
+              onIncrease={handleIncreaseQty.bind(null, product)}
+              onDecrease={handleDecreaseQty.bind(null, product)}
+              isLoading={isLoading}
             />
           </GridItem>
 

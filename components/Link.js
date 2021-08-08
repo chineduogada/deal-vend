@@ -2,7 +2,7 @@ import NextLink from "next/link";
 import PropTypes from "prop-types";
 import { Box } from "@chakra-ui/react";
 
-export const Link = ({ children, href, as, mute, d, ...rest }) => {
+export const Link = ({ children, href = "#", as, mute, d, ...rest }) => {
   return (
     <NextLink href={href} as={as} passHref>
       <Box

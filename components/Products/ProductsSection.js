@@ -7,11 +7,11 @@ const ProductsSection = ({ data }) => {
   return (
     <Box
       as="section"
-      shadow="md"
+      shadow="lg"
       rounded="md"
       overflow="hidden"
       pb={2}
-      mb={8}
+      my={16}
       bg="white"
       id={data.id}
     >
