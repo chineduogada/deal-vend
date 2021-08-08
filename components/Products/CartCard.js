@@ -17,7 +17,7 @@ import truncate from "../../utils/truncate";
 import cartGridTemplateCols from "../gridTemplateCols/cartGridTemplateCols";
 import { useState } from "react";
 import { Image } from "components/Image";
-import useCart from "useCart";
+import useCart from "hooks/useCart";
 
 const SaveAndTrashBtn = ({ disabled, handleRemoveProduct, ...rest }) => (
   <ButtonGroup {...rest} mt={1} size="sm">

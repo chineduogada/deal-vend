@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { globalState } from "./components/Layout";
-import useToast from "./hooks/useToast";
+import { globalState } from "components/Layout";
+import useToast from "hooks/useToast";
 import {
   addNewCartItem,
   clearCart,
@@ -8,7 +8,7 @@ import {
   deleteCartItem,
   getCart,
   increaseCartItem,
-} from "./utils/http";
+} from "utils/http";
 
 const useCart = () => {
   const [loading, setLoading] = useState();

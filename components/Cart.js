@@ -20,7 +20,7 @@ import {
 import cartGridTemplateCols from "./gridTemplateCols/cartGridTemplateCols";
 import CartCard from "./Products/CartCard";
 import formatPrice from "utils/formatPrice";
-import useCart from "useCart";
+import useCart from "hooks/useCart";
 import { Link } from "./Link";
 import * as valtio from "valtio";
 import { globalState } from "./Layout";

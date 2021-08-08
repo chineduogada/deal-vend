@@ -5,7 +5,7 @@ import usePageReady from "hooks/usePageReady";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import * as valtio from "valtio";
-import useCart from "useCart";
+import useCart from "hooks/useCart";
 
 export const globalState = valtio.proxy({
   cart: {
