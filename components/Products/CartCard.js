@@ -16,8 +16,9 @@ import truncate from "../../utils/truncate";
 import cartGridTemplateCols from "../gridTemplateCols/cartGridTemplateCols";
 import { useState } from "react";
 import { Image } from "components/Image";
+import useCart from "useCart";
 
-const SaveAndTrashBtn = ({ disabled, ...rest }) => (
+const SaveAndTrashBtn = ({ disabled, handleRemoveProduct, ...rest }) => (
   <ButtonGroup {...rest} mt={1} size="sm">
     <Button
       disabled={disabled}
@@ -39,7 +40,11 @@ const SaveAndTrashBtn = ({ disabled, ...rest }) => (
       </IconButton>
     </Box>
 
-    <Button variant="ghost" leftIcon={<BiTrash />}>
+    <Button
+      variant="ghost"
+      leftIcon={<BiTrash />}
+      onClick={handleRemoveProduct}
+    >
       Trash
     </Button>
   </ButtonGroup>
@@ -86,7 +91,11 @@ const UnitPrice = ({ price, ...rest }) => (
   </Flex>
 );
 
-const CartCard = ({ outOfStock, price, quantity, name }) => {
+const CartCard = ({ product }) => {
+  const { outOfStock, price, quantity, name } = product;
+
+  const { handleRemoveProduct } = useCart();
+
   return (
     <Box
       p={{ base: 1, md: 0 }}
@@ -97,14 +106,9 @@ const CartCard = ({ outOfStock, price, quantity, name }) => {
       bg="white"
       opacity={outOfStock && 0.5}
     >
-      <GridItem
-        borderRight={{ base: 0, md: "1px" }}
-        borderColor="gray.300"
-        p={1}
-      >
+      <GridItem borderRight={{ base: 0, md: "1px solid #eee" }} p={1}>
         <Flex
-          borderBottom={outOfStock ? 0 : { base: "1px", md: 0 }}
-          borderColor="gray.300"
+          borderBottom={outOfStock ? 0 : { base: "1px solid #eee", md: 0 }}
           pb={2}
         >
           <Box
@@ -142,7 +146,11 @@ const CartCard = ({ outOfStock, price, quantity, name }) => {
               </Link>
             </Box>
 
-            <SaveAndTrashBtn disabled={true} d={{ base: "none", md: "flex" }} />
+            <SaveAndTrashBtn
+              handleRemoveProduct={handleRemoveProduct.bind(null, product)}
+              disabled={true}
+              d={{ base: "none", md: "flex" }}
+            />
 
             <UnitPrice price={price} d={{ base: "flex", md: "none" }} />
           </Box>
@@ -154,7 +162,10 @@ const CartCard = ({ outOfStock, price, quantity, name }) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <SaveAndTrashBtn disabled={true} />
+          <SaveAndTrashBtn
+            handleRemoveProduct={handleRemoveProduct.bind(null, product)}
+            disabled={true}
+          />
           <Counter
             itemCount={quantity}
             // onIncrease={handleIncrease}
@@ -176,8 +187,7 @@ const CartCard = ({ outOfStock, price, quantity, name }) => {
         <>
           <GridItem
             d={{ base: "none", md: "block" }}
-            borderRight={{ base: 0, md: "1px" }}
-            borderColor="gray.300"
+            borderRight={{ base: 0, md: "1px solid #eee" }}
             p={2}
           >
             <Counter
@@ -189,8 +199,7 @@ const CartCard = ({ outOfStock, price, quantity, name }) => {
 
           <GridItem
             d={{ base: "none", md: "block" }}
-            borderRight={{ base: 0, md: "1px" }}
-            borderColor="gray.300"
+            borderRight={{ base: 0, md: "1px solid #eee" }}
             p={1}
           >
             <UnitPrice price={price} />

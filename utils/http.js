@@ -43,10 +43,6 @@ const http = {
     axios.delete(options?.url || buildURL(path), buildOptions(options)),
 };
 
-export const fetchProducts = async (path) => {
-  return http.get(path).then((res) => res.data);
-};
-
 // Helpers
 export const currentUser = async () => {
   const {

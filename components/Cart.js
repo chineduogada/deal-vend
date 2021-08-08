@@ -56,7 +56,7 @@ function Cart({ renderOpenButton }) {
               fontSize={{ base: "lg", md: "3xl" }}
               // py={{ base: 0, md: 2 }}
             >
-              Cart (4 items)
+              Cart ({cart?.products?.length || 0} items)
             </Heading>
           </ModalHeader>
           <ModalCloseButton />
@@ -79,8 +79,8 @@ function Cart({ renderOpenButton }) {
                 <GridItem textAlign="right">SUBTOTAL</GridItem>
               </Grid>
 
-              {cart.products?.map((product) => (
-                <CartCard key={product._id} {...product} />
+              {cart?.products?.map((product) => (
+                <CartCard key={product._id} product={product} />
               ))}
             </Stack>
           </ModalBody>
@@ -108,7 +108,7 @@ function Cart({ renderOpenButton }) {
             <Flex alignSelf="stretch" mt={2} flexWrap="wrap">
               <Box flex={1}>
                 <Button
-                  disabled={isLoading}
+                  disabled={isLoading || !cart?.products?.length}
                   colorScheme="red"
                   onClick={handleClear.bind(null, onClose)}
                   w={{ base: "100%", md: "auto" }}
@@ -123,7 +123,7 @@ function Cart({ renderOpenButton }) {
                 onClick={onClose}
                 mute
                 w={{ base: "100%", md: "auto" }}
-                my={2}
+                my={{ base: 2, md: 0 }}
                 mx={{ md: 2 }}
               >
                 <Button

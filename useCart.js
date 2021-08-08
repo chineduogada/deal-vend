@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { globalState } from "./components/Layout";
 import useToast from "./hooks/useToast";
-import { addNewCartItem, clearCart, getCart } from "./utils/http";
+import {
+  addNewCartItem,
+  clearCart,
+  decreaseCartItem,
+  deleteCartItem,
+  getCart,
+  increaseCartItem,
+} from "./utils/http";
 
 const useCart = () => {
   const [loading, setLoading] = useState();
@@ -19,11 +26,44 @@ const useCart = () => {
       setLoading(false);
     }
   };
-  const handleRemoveProduct = async (product) => {};
+  const handleRemoveProduct = async (product) => {
+    try {
+      setLoading(true);
+      const cart = await deleteCartItem(product);
 
-  const handleIncreaseQty = async (product) => {};
+      globalState.cart = cart;
+    } catch (err) {
+      toast.display({ description: err.message });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleDecreaseQty = async (product) => {};
+  const handleIncreaseQty = async (product) => {
+    try {
+      setLoading(true);
+      const cart = await increaseCartItem(product);
+
+      globalState.cart = cart;
+    } catch (err) {
+      toast.display({ description: err.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDecreaseQty = async (product) => {
+    try {
+      setLoading(true);
+      const cart = await decreaseCartItem(product);
+
+      globalState.cart = cart;
+    } catch (err) {
+      toast.display({ description: err.message });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleGetCart = async () => {
     try {
