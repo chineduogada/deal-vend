@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   ButtonGroup,
   Flex,
@@ -16,12 +17,26 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import formatPrice from "../utils/formatPrice";
 import cartGridTemplateCols from "./gridTemplateCols/cartGridTemplateCols";
 import CartCard from "./Products/CartCard";
+import formatPrice from "utils/formatPrice";
+import useCart from "useCart";
+import { Link } from "./Link";
+import * as valtio from "valtio";
+import { globalState } from "./Layout";
 
 function Cart({ renderOpenButton }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { handleClearCart, isLoading } = useCart();
+
+  const { cart } = valtio.useSnapshot(globalState);
+
+  const handleClear = (handleCloseModal) => {
+    handleClearCart();
+  };
+
+  console.log(cart);
 
   return (
     <>
@@ -64,10 +79,9 @@ function Cart({ renderOpenButton }) {
                 <GridItem textAlign="right">SUBTOTAL</GridItem>
               </Grid>
 
-              <CartCard />
-              <CartCard outOfStock />
-              <CartCard />
-              <CartCard />
+              {cart.products?.map((product) => (
+                <CartCard key={product._id} {...product} />
+              ))}
             </Stack>
           </ModalBody>
 
@@ -83,22 +97,53 @@ function Cart({ renderOpenButton }) {
               </Text>
             </Flex>
 
-            <Text color="gray.500" fontSize="sm">
+            <Text color="gray.500" fontSize="sm" mt={2}>
               Delivery fee not included yet
             </Text>
-            <Text color="gray.500" fontSize="sm">
+            <Text color="gray.500" fontSize="sm" mb={3}>
               International Shipping and Customs fee not included yet
               (NON-REFUNDABLE in case of a return)
             </Text>
 
-            <ButtonGroup mt={2} flexWrap="wrap">
-              <Button onClick={onClose} w={{ base: "100%", md: "auto" }} mb={1}>
-                Continue Shopping
-              </Button>
-              <Button onClick={onClose} w={{ base: "100%", md: "auto" }}>
+            <Flex alignSelf="stretch" mt={2} flexWrap="wrap">
+              <Box flex={1}>
+                <Button
+                  disabled={isLoading}
+                  colorScheme="red"
+                  onClick={handleClear.bind(null, onClose)}
+                  w={{ base: "100%", md: "auto" }}
+                >
+                  Clear Cart
+                </Button>
+              </Box>
+
+              <Link
+                href="/"
+                disabled={isLoading}
+                onClick={onClose}
+                mute
+                w={{ base: "100%", md: "auto" }}
+                my={2}
+                mx={{ md: 2 }}
+              >
+                <Button
+                  disabled={isLoading}
+                  w={{ base: "100%", md: "auto" }}
+                  onClick={onClose}
+                >
+                  Continue Shopping
+                </Button>
+              </Link>
+
+              <Button
+                disabled={true}
+                onClick={onClose}
+                w={{ base: "100%", md: "auto" }}
+                colorScheme="green"
+              >
                 Proceed to checkout
               </Button>
-            </ButtonGroup>
+            </Flex>
           </ModalFooter>
         </ModalContent>
       </Modal>

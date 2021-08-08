@@ -1,10 +1,17 @@
 import { Box } from "@chakra-ui/react";
 import Header from "./Header";
 import Footer from "./Footer";
-import usePageReady from "../hooks/usePageReady";
+import usePageReady from "hooks/usePageReady";
 import { useInView } from "react-intersection-observer";
-import useAuth from "hooks/useAuth";
 import { useEffect } from "react";
+import * as valtio from "valtio";
+import useCart from "useCart";
+
+export const globalState = valtio.proxy({
+  cart: {
+    products: [],
+  },
+});
 
 const Layout = ({
   children,
@@ -13,11 +20,16 @@ const Layout = ({
   footerProps,
 }) => {
   const pageReady = usePageReady();
+  const cart = useCart();
 
   const headerObserver = useInView({
     /* Optional options */
     threshold: 0,
   });
+
+  useEffect(() => {
+    cart.handleGetCart();
+  }, []);
 
   return (
     pageReady && (

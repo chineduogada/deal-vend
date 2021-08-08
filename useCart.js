@@ -1,27 +1,57 @@
-import { useContext } from "react";
-import CartContext from "./context/CartContext";
+import { useState } from "react";
+import { globalState } from "./components/Layout";
+import useToast from "./hooks/useToast";
+import { addNewCartItem, clearCart, getCart } from "./utils/http";
 
 const useCart = () => {
-  const { state, dispatch } = useContext(CartContext);
+  const [loading, setLoading] = useState();
+  const toast = useToast();
 
-  const handleAddProduct = (payload) => {
-    // console.log(payload);
-    dispatch({ type: "ADD_PRODUCT", payload });
+  const handleAddProduct = async (product) => {
+    try {
+      setLoading(true);
+      const cart = await addNewCartItem(product);
+
+      globalState.cart = cart;
+    } catch (err) {
+      toast.display({ description: err.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleRemoveProduct = async (product) => {};
+
+  const handleIncreaseQty = async (product) => {};
+
+  const handleDecreaseQty = async (product) => {};
+
+  const handleGetCart = async () => {
+    try {
+      setLoading(true);
+      const cart = await getCart();
+
+      console.log(cart);
+
+      globalState.cart = cart[0];
+    } catch (err) {
+      toast.display({ description: err.message });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleRemoveProduct = (payload) =>
-    dispatch({ type: REMOVE_PRODUCT, payload });
-  const handleIncreaseItemCount = (payload) =>
-    dispatch({ type: INCREASE_ITEM_COUNT, payload });
-  const handleDecreaseItemCount = (payload) =>
-    dispatch({ type: DECREASE_ITEM_COUNT, payload });
+  const handleClearCart = async () => {
+    await handleRequest(clearCart);
+  };
 
   return {
-    state,
+    isLoading: loading,
     handleAddProduct,
     handleRemoveProduct,
-    handleIncreaseItemCount,
-    handleDecreaseItemCount,
+    handleIncreaseQty,
+    handleDecreaseQty,
+    handleGetCart,
+    handleClearCart,
   };
 };
 

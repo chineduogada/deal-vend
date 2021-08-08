@@ -109,14 +109,6 @@ const LoginPage = () => {
                 onChange={handleInputType}
               />
 
-              {/* <Flex
-                justifyContent={{ base: "center", md: "flex-end" }}
-                my={5}
-                color="green.500"
-              >
-                <Link href="/forgot-password">Forgot password?</Link>
-              </Flex> */}
-
               <Button
                 pos={{ base: "relative", md: "absolute" }}
                 mt={{ base: 10, md: 0 }}

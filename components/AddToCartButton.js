@@ -5,32 +5,36 @@ import { FaCartPlus } from "react-icons/fa";
 import useCart from "../useCart";
 
 const AddToCartButton = ({ product }) => {
-  const { handleAddProduct, state } = useCart();
+  const cart = useCart();
 
   product = {
-    id: product.id,
+    productId: product.id,
     name: product.name,
     price: product.price,
     image: product.image,
   };
 
-  // console.log(handleAddProduct);
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
-  const existingItem = state.find((item) => item.id === product.id);
+  const existingItem = false;
+  //   cart.items.find(
+  //   (item) => item.productId === product.productId
+  // );
 
   return existingItem ? (
     <Flex alignItems="center" justifyContent="space-between" w="100%">
-      <IconButton variant="ghost">
+      <IconButton
+        variant="ghost"
+        onClick={cart.handleIncreaseQty.bind(null, product)}
+      >
         <AiOutlinePlus />
       </IconButton>
 
-      <Text as="b">{existingItem.itemCount}</Text>
+      <Text as="b">{existingItem.quantity}</Text>
 
-      <IconButton variant="ghost" disabled={existingItem.itemCount === 1}>
+      <IconButton
+        variant="ghost"
+        disabled={existingItem.quantity === 1}
+        onClick={cart.handleDecreaseQty.bind(null, product)}
+      >
         <AiOutlineMinus />
       </IconButton>
     </Flex>
@@ -38,7 +42,7 @@ const AddToCartButton = ({ product }) => {
     <Button
       w="100%"
       leftIcon={<FaCartPlus />}
-      onClick={handleAddProduct.bind(null, product)}
+      onClick={cart.handleAddProduct.bind(null, product)}
     >
       Add to cart
     </Button>

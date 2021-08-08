@@ -1,12 +1,12 @@
-import { Heading } from "@chakra-ui/react";
-import Link from "next/link";
+import { Text } from "@chakra-ui/react";
+import { Link } from "./Link";
 
 const Brand = () => {
   return (
-    <Link href="/">
-      <a>
-        <Heading>DealVend</Heading>
-      </a>
+    <Link href="/" mute>
+      <Text fontWeight="bold" fontSize="2xl">
+        DealVend
+      </Text>
     </Link>
   );
 };

@@ -18,11 +18,10 @@ const Gallery = ({ product }) => {
         <Box d={{ base: "block", md: "none" }} w="100%">
           <FaderThemeProvider
             theme={{
-              dots: { 1: "#3182ce", 2: "#eee" },
               carets: { 1: "#3182ce", 2: "#eee" },
             }}
           >
-            <Fader dots buttons>
+            <Fader buttons dots={false}>
               {allImages.map((image, index) => (
                 <Flex justifyContent="center" key={index}>
                   <Image

@@ -4,9 +4,13 @@ import {
   Flex,
   Grid,
   Heading,
+  Icon,
+  IconButton,
   Input,
   Spinner,
+  Stack,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -16,6 +20,8 @@ import useToast from "hooks/useToast";
 import { login } from "utils/http";
 import useAuth from "hooks/useAuth";
 import { Loader } from "components/Feedback";
+import { Avatar } from "components/Image";
+import { BsBriefcaseFill, BsPen } from "react-icons/bs";
 
 const ProfilePage = () => {
   const auth = useAuth();
@@ -29,9 +35,45 @@ const ProfilePage = () => {
   return (
     <Layout>
       {auth.me ? (
-        <Box minH="70vh">
-          <Heading>{auth.me?.name}</Heading>
-        </Box>
+        <Stack alignItems="center" textAlign="center" minH="70vh" spacing={2}>
+          <Box pos="relative">
+            <Avatar lg />
+
+            <Link href="/profile/edit">
+              <IconButton
+                fontSize="1.5rem"
+                isRound
+                colorScheme="green"
+                pos="absolute"
+                top={0}
+                right={-2}
+              >
+                <BsPen />
+              </IconButton>
+            </Link>
+          </Box>
+
+          <Heading size="lg" as="h1" color="green.500">
+            {auth.me.name}
+          </Heading>
+          <Text>{auth.me.email}</Text>
+
+          <Flex
+            rounded="full"
+            border="1px"
+            py={2}
+            px={4}
+            textTransform="uppercase"
+            color="green.500"
+          >
+            <Icon fontSize="1.5rem">
+              <BsBriefcaseFill />
+            </Icon>
+            <Text fontWeight={500} pl={2}>
+              {auth.me.role}
+            </Text>
+          </Flex>
+        </Stack>
       ) : (
         <Loader />
       )}

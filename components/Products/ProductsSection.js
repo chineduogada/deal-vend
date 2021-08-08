@@ -13,6 +13,7 @@ const ProductsSection = ({ data }) => {
       pb={2}
       mb={8}
       bg="white"
+      id={data.id}
     >
       <Box bg={data.bg} p={2} mb={2}>
         <Heading

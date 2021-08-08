@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   Badge,
@@ -16,10 +15,12 @@ import formatPrice from "../../utils/formatPrice";
 import truncate from "../../utils/truncate";
 import cartGridTemplateCols from "../gridTemplateCols/cartGridTemplateCols";
 import { useState } from "react";
+import { Image } from "components/Image";
 
-const SaveAndTrashBtn = ({ ...rest }) => (
+const SaveAndTrashBtn = ({ disabled, ...rest }) => (
   <ButtonGroup {...rest} mt={1} size="sm">
     <Button
+      disabled={disabled}
       d={{ base: "none", md: "flex" }}
       variant="ghost"
       leftIcon={<BiHeart />}
@@ -33,7 +34,7 @@ const SaveAndTrashBtn = ({ ...rest }) => (
       borderColor="gray.300"
       pr={3}
     >
-      <IconButton isRound variant="ghost">
+      <IconButton disabled={disabled} isRound variant="ghost">
         <BiHeart />
       </IconButton>
     </Box>
@@ -64,7 +65,7 @@ const Counter = ({ itemCount, onDecrease, onIncrease, ...rest }) => (
   </Flex>
 );
 
-const UnitPrice = ({ ...rest }) => (
+const UnitPrice = ({ price, ...rest }) => (
   <Flex
     {...rest}
     flexDir="column"
@@ -73,32 +74,21 @@ const UnitPrice = ({ ...rest }) => (
     h={{ base: "auto", md: "100%" }}
   >
     <Text fontWeight="500" mb={{ base: 0, md: 2 }}>
-      {formatPrice("en-NG", 5500, "NGN")}
+      {formatPrice("en-NG", price, "NGN")}
     </Text>
 
     <Text fontSize="sm" fontWeight="500" textDecor="line-through" opacity={0.7}>
-      {formatPrice("en-NG", 5500, "NGN")}
+      {formatPrice("en-NG", price, "NGN")}
     </Text>
     <Text fontWeight="500" fontSize="xs" d={{ base: "none", md: "block" }}>
-      Savings {formatPrice("en-NG", 5500, "NGN")}
+      Savings {formatPrice("en-NG", price, "NGN")}
     </Text>
   </Flex>
 );
 
-const CartCard = ({ outOfStock }) => {
-  const [itemCount, setItemCount] = useState(1);
-
-  const handleDecrease = () => {
-    setItemCount((prevItemCount) => prevItemCount - 1);
-  };
-
-  const handleIncrease = () => {
-    setItemCount((prevItemCount) => prevItemCount + 1);
-  };
-
+const CartCard = ({ outOfStock, price, quantity, name }) => {
   return (
     <Box
-      as="article"
       p={{ base: 1, md: 0 }}
       d={{ base: "block", md: "grid" }}
       gridTemplateColumns={outOfStock ? "3.5fr 2.5fr" : cartGridTemplateCols}
@@ -118,9 +108,7 @@ const CartCard = ({ outOfStock }) => {
           pb={2}
         >
           <Box
-            w={{ base: "110px", md: "60px" }}
-            h={{ base: "110px", md: "60px" }}
-            mr={1}
+            mr={2}
             alignItems="flex-start"
             rounded="md"
             overflow="hidden"
@@ -129,9 +117,9 @@ const CartCard = ({ outOfStock }) => {
           >
             <Image
               src="/img/carousel-img-1.jpg"
-              width={100}
-              height={100}
-              layout="responsive"
+              width={75}
+              height={75}
+              isProduct
             />
           </Box>
 
@@ -148,23 +136,15 @@ const CartCard = ({ outOfStock }) => {
               <Link href="/sd">
                 <a>
                   <Text as="b" fontSize="sm" mb={{ base: 2, md: 0 }}>
-                    {outOfStock
-                      ? truncate(
-                          "STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH",
-                          30
-                        )
-                      : truncate(
-                          "STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH",
-                          70
-                        )}
+                    {outOfStock ? truncate(name, 30) : truncate(name, 70)}
                   </Text>
                 </a>
               </Link>
             </Box>
 
-            <SaveAndTrashBtn d={{ base: "none", md: "flex" }} />
+            <SaveAndTrashBtn disabled={true} d={{ base: "none", md: "flex" }} />
 
-            <UnitPrice d={{ base: "flex", md: "none" }} />
+            <UnitPrice price={price} d={{ base: "flex", md: "none" }} />
           </Box>
         </Flex>
 
@@ -174,11 +154,11 @@ const CartCard = ({ outOfStock }) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <SaveAndTrashBtn />
+          <SaveAndTrashBtn disabled={true} />
           <Counter
-            itemCount={itemCount}
-            onIncrease={handleIncrease}
-            onDecrease={handleDecrease}
+            itemCount={quantity}
+            // onIncrease={handleIncrease}
+            // onDecrease={handleDecrease}
             w="100px"
           />
         </Box>
@@ -201,9 +181,9 @@ const CartCard = ({ outOfStock }) => {
             p={2}
           >
             <Counter
-              itemCount={itemCount}
-              onIncrease={handleIncrease}
-              onDecrease={handleDecrease}
+              itemCount={quantity}
+              // onIncrease={handleIncrease}
+              // onDecrease={handleDecrease}
             />
           </GridItem>
 
@@ -213,11 +193,11 @@ const CartCard = ({ outOfStock }) => {
             borderColor="gray.300"
             p={1}
           >
-            <UnitPrice />
+            <UnitPrice price={price} />
           </GridItem>
 
           <GridItem d={{ base: "none", md: "grid" }} placeItems="center" p={1}>
-            <Text fontWeight="700">{formatPrice("en-NG", 15500, "NGN")}</Text>
+            <Text fontWeight="700">{formatPrice("en-NG", price, "NGN")}</Text>
           </GridItem>
         </>
       )}

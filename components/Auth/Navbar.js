@@ -82,16 +82,20 @@ const NavbarAuthControls = () => {
 
       <ButtonGroup display={media("none", "flex")}>
         {auth.me ? (
-          <Menu>
-            <MenuButton as={Button}>Hi, {auth.me.firstName}</MenuButton>
+          <Flex>
+            <Menu>
+              <MenuButton as={Button}>Hi, {auth.me.firstName}</MenuButton>
 
-            <MenuList>
-              <MenuItemLink ctx="profile" href="/profile">
-                View profile
-              </MenuItemLink>
-              <MenuItem onClick={auth.handleLogout}>Logout</MenuItem>
-            </MenuList>
-          </Menu>
+              <MenuList>
+                <MenuItemLink ctx="profile" href="/profile">
+                  View profile
+                </MenuItemLink>
+                <MenuItem onClick={auth.handleLogout}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+
+            {renderedCartButton}
+          </Flex>
         ) : (
           <>
             <Link href={`/auth/login?redirectTo=${redirectTo}`} mute>
