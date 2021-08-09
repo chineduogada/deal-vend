@@ -11,22 +11,15 @@ const Gallery = ({ product }) => {
       <>
         {/* For Mobile */}
         <Box d={{ base: "block", md: "none" }} w="100%">
-          <FaderThemeProvider
-            theme={{
-              carets: { 1: "green", 2: "#eee" },
-              dots: { 1: "green", 2: "#ddd" },
-            }}
-          >
-            <Fader buttons>
-              {[`/img/${product.name}.jpg`, ...product.images].map(
-                (image, index) => (
-                  <Flex justifyContent="center" key={index}>
-                    <Image w="280px" h="230px" isProduct src={image} />
-                  </Flex>
-                )
-              )}
-            </Fader>
-          </FaderThemeProvider>
+          <Fader buttons>
+            {[`/img/${product.name}.jpg`, ...product.images].map(
+              (image, index) => (
+                <Flex justifyContent="center" key={index}>
+                  <Image w="280px" h="230px" isProduct src={image} />
+                </Flex>
+              )
+            )}
+          </Fader>
         </Box>
 
         {/* From Tab */}
