@@ -400,7 +400,7 @@ const Product = ({ product }) => {
 
 const HeaderDetail = ({ product, observer }) => {
   const renderLove = (props) => (
-    <IconButton isRound {...props} colorScheme="blue">
+    <IconButton isRound {...props} colorScheme="green" disabled>
       <BsHeart />
     </IconButton>
   );

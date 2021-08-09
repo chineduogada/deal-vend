@@ -22,9 +22,8 @@ const CartCard = ({ product }) => {
   const { outOfStock, price, quantity, name } = product;
 
   const discount = 10;
-
   const discountedPrice = price - (price * discount) / 100;
-
+  const savedPrice = price - discountedPrice;
   const subTotalPrice = discountedPrice * quantity;
 
   const {
@@ -93,7 +92,12 @@ const CartCard = ({ product }) => {
               d={{ base: "none", md: "flex" }}
             />
 
-            <UnitPrice price={price} d={{ base: "flex", md: "none" }} />
+            <UnitPrice
+              discountedPrice={discountedPrice}
+              savedPrice={savedPrice}
+              price={price}
+              d={{ base: "flex", md: "none" }}
+            />
 
             <Text
               textAlign="right"
@@ -154,7 +158,11 @@ const CartCard = ({ product }) => {
             borderRight={{ base: 0, md: "1px solid #eee" }}
             p={1}
           >
-            <UnitPrice price={price} />
+            <UnitPrice
+              discountedPrice={discountedPrice}
+              savedPrice={savedPrice}
+              price={price}
+            />
           </GridItem>
 
           <GridItem d={{ base: "none", md: "grid" }} placeItems="center" p={1}>
@@ -191,6 +199,9 @@ const SaveAndTrashBtn = ({ disabled, handleRemoveProduct, ...rest }) => (
     </Box>
 
     <Button
+      bg="red.200"
+      color="red.700"
+      _hover={{ opacity: 0.8 }}
       variant="ghost"
       leftIcon={<BiTrash />}
       onClick={handleRemoveProduct}
@@ -220,7 +231,7 @@ const Counter = ({ itemCount, onDecrease, onIncrease, isLoading, ...rest }) => (
   </Flex>
 );
 
-const UnitPrice = ({ price, ...rest }) => (
+const UnitPrice = ({ price, discountedPrice, savedPrice, ...rest }) => (
   <Flex
     {...rest}
     flexDir="column"
@@ -229,14 +240,14 @@ const UnitPrice = ({ price, ...rest }) => (
     h={{ base: "auto", md: "100%" }}
   >
     <Text fontWeight="500" mb={{ base: 0, md: 2 }}>
-      {formatPrice("en-NG", price, "NGN")}
+      {formatPrice("en-NG", discountedPrice, "NGN")}
     </Text>
 
     <Text fontSize="sm" fontWeight="500" textDecor="line-through" opacity={0.7}>
       {formatPrice("en-NG", price, "NGN")}
     </Text>
     <Text fontWeight="500" fontSize="xs" d={{ base: "none", md: "block" }}>
-      Savings {formatPrice("en-NG", price, "NGN")}
+      Savings {formatPrice("en-NG", savedPrice, "NGN")}
     </Text>
   </Flex>
 );
