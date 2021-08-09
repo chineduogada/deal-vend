@@ -58,7 +58,7 @@ const CartCard = ({ product }) => {
             pos="relative"
           >
             <Image
-              src="/img/carousel-img-1.jpg"
+              src={`/img/${product.name}.jpg`}
               width={75}
               height={75}
               isProduct
