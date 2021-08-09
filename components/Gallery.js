@@ -13,7 +13,8 @@ const Gallery = ({ product }) => {
         <Box d={{ base: "block", md: "none" }} w="100%">
           <FaderThemeProvider
             theme={{
-              carets: { 1: "#3182ce", 2: "#eee" },
+              carets: { 1: "green", 2: "#eee" },
+              dots: { 1: "green", 2: "#ddd" },
             }}
           >
             <Fader buttons>
