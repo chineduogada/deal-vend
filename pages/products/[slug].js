@@ -238,7 +238,7 @@ const Product = ({ product }) => {
             flexShrink={0}
           >
             <Image
-              src={`/img/${product.name}.jpg"`}
+              src={`/img/${product.name}.jpg`}
               width="90px"
               height="90px"
             />
@@ -409,7 +409,7 @@ const HeaderDetail = ({ product, observer }) => {
     <Box ref={observer.ref}>
       <Flex justifyContent="space-between" mb={3} mt={{ base: 4, md: 0 }}>
         <Text as="h2" fontSize={{ base: "lg", md: "2xl" }} fontWeight="400">
-          {product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB RAM, 8MP/5MP
+          {product.name} POP4 (BC2c) 6" Screen 32GB ROM + 2GB RAM, 8MP/5MP
           Camera, Android Q (Go Edition), 5000mah - Ice Lake Green
         </Text>
 
@@ -423,7 +423,7 @@ const HeaderDetail = ({ product, observer }) => {
           </Text>
 
           <Text fontWeight="bold" mx={{ md: 2 }} opacity={0.8}>
-            {product.brand || "Tecno | Similar products from Tecno"}
+            {product.brand || "Dell | Similar products from Dell"}
           </Text>
         </Flex>
 
