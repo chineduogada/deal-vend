@@ -237,13 +237,17 @@ const Product = ({ product }) => {
             height="90px"
             flexShrink={0}
           >
-            <Image src="/img/carousel-img-1.jpg" width="90px" height="90px" />
+            <Image
+              src={`/img/${product.name}.jpg"`}
+              width="90px"
+              height="90px"
+            />
           </Box>
 
           <Box flex="1" ml={1}>
             <Heading as="h5" fontSize="md" fontWeight="400" mb={2}>
               {truncate(
-                `${product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB
+                `${product.name} POP4 (BC2c) 6" Screen 32GB ROM + 2GB
                     RAM, 8MP/5MP Camera, Android Q (Go Edition), 5000mah - Ice
                     Lake Green`,
                 17
@@ -274,11 +278,10 @@ const Product = ({ product }) => {
   );
 
   product.images = [
-    "/img/carousel-img-1.jpg",
-    "/img/carousel-img-2.jpg",
-    "/img/carousel-img-1.jpg",
-    "/img/carousel-img-2.jpg",
-    "/img/carousel-img-1.jpg",
+    "/img/product cover 1.jpg",
+    "/img/product cover 2.jpg",
+    "/img/product cover 3.jpg",
+    "/img/product cover 4.jpg",
   ];
 
   return (

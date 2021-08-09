@@ -35,7 +35,7 @@ const BoxedCard = ({ product }) => {
             - {discount}%
           </Badge>
           <Image
-            src="/img/carousel-img-1.jpg"
+            src={`/img/${product.name}.jpg`}
             isProduct
             width="100%"
             height="120px"
