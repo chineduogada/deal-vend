@@ -32,6 +32,17 @@ function Cart({ renderOpenButton }) {
 
   const { cart } = valtio.useSnapshot(globalState);
 
+  const totalPrice =
+    cart?.products?.reduce((prev, product) => {
+      const discount = 10;
+
+      const discountedPrice = product.price - (product.price * discount) / 100;
+
+      const subTotalPrice = discountedPrice * product.quantity;
+
+      return subTotalPrice + prev;
+    }, 0) || "0.00";
+
   const handleClear = (handleCloseModal) => {
     handleClearCart();
   };
@@ -86,14 +97,12 @@ function Cart({ renderOpenButton }) {
           </ModalBody>
 
           <ModalFooter flexDir="column" alignItems="flex-end">
-            <Flex
-              alignItems="flex-end"
-              justifyContent="space-between"
-              w="220px"
-            >
-              <Text as="b">Total:</Text>
+            <Flex alignItems="flex-end">
+              <Text as="b" mr={2}>
+                Total:
+              </Text>
               <Text fontSize="2xl" as="b" ml={2}>
-                {formatPrice("en-NG", 133030, "NGN")}
+                {formatPrice("en-NG", totalPrice, "NGN")}
               </Text>
             </Flex>
 
