@@ -9,8 +9,9 @@ axios.interceptors.response.use(null, (err) => {
 });
 
 export const baseURL =
-  // "https://deal-vend.herokuapp.com/api/v1";
-  "http://localhost:8080/api/v1";
+  //
+  "https://deal-vend.herokuapp.com/api/v1";
+// "http://localhost:8080/api/v1";
 
 const defaultOptions = (explicitToken) => ({
   // timeout's the request in a minute by default

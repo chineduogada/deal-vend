@@ -21,16 +21,18 @@ import { useRouter } from "next/router";
 import { BsHeart } from "react-icons/bs";
 import { MdStars } from "react-icons/md";
 import { FaBoxOpen, FaCartPlus, FaChevronRight, FaTimes } from "react-icons/fa";
-import Layout from "../../components/Layout";
-import Rating from "../../components/Rating";
-import fetcher from "../../utils/fetcher";
-import truncate from "../../utils/truncate";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import formatPrice from "../../utils/formatPrice";
-import Gallery from "../../components/Gallery";
-import TipAbout from "../../components/TipAbout";
-import AddToCartButton from "../../components/AddToCartButton";
+import Layout from "components/Layout";
+import Rating from "components/Rating";
+import fetcher from "utils/fetcher";
+import truncate from "utils/truncate";
+import calcDiscountPrice from "utils/calcDiscountPrice";
+import formatPrice from "utils/formatPrice";
+import Gallery from "components/Gallery";
+import TipAbout from "components/TipAbout";
+import AddToCartButton from "components/AddToCartButton";
 import { useInView } from "react-intersection-observer";
+import buildSEO from "utils/buildSEO";
+import Head from "next/head";
 
 const details = [
   {
@@ -289,6 +291,10 @@ const Product = ({ product }) => {
       breadcrumbPaths={[{ name: "Home", path: "/" }, { name: product.slug }]}
       footerProps={{ mb: { base: "70px", md: 0 } }}
     >
+      <Head>
+        <title>{product?.name || "..."} - Deal Vend</title>
+      </Head>
+
       <Wrapper
         renderGallery={<Gallery product={product} />}
         renderAside={renderAside()}

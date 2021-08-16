@@ -6,6 +6,8 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import * as valtio from "valtio";
 import useCart from "hooks/useCart";
+import useAuth from "hooks/useAuth";
+import { NextSeo } from "next-seo";
 
 export const globalState = valtio.proxy({
   cart: {
@@ -16,11 +18,13 @@ export const globalState = valtio.proxy({
 const Layout = ({
   children,
   showHeaderCenter,
+  SEO,
   breadcrumbPaths,
   footerProps,
 }) => {
   const pageReady = usePageReady();
   const cart = useCart();
+  const auth = useAuth();
 
   const headerObserver = useInView({
     /* Optional options */
@@ -28,12 +32,16 @@ const Layout = ({
   });
 
   useEffect(() => {
-    cart.handleGetCart();
-  }, []);
+    if (auth.me) {
+      cart.handleGetCart();
+    }
+  }, [auth.me]);
 
   return (
     pageReady && (
       <Box bg="gray.100" pt={2}>
+        {SEO && <NextSeo {...SEO} />}
+
         <Box px={2} m="0 auto" maxW={900} bg="gray.100">
           <Header
             showHeaderCenter={showHeaderCenter}

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { BsGear } from "react-icons/bs";
 import http, { changeMyPassword, updateMe } from "utils/http";
 import { Loader } from "components/Feedback";
+import Head from "next/head";
 
 // const pageSEO = buildSEO("Edit Profile", "...");
 // const breadcrumb = [
@@ -151,6 +152,10 @@ const ProfileSettingPage = () => {
     <Layout
     // SEO={pageSEO} breadcrumb={breadcrumb}
     >
+      <Head>
+        <title>Edit Profile - Deal Vend</title>
+      </Head>
+
       {auth.me ? (
         <>
           <MiniSection p={{ base: 4, md: 10 }} pt={0}>

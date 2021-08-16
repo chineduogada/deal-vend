@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { Box } from "@chakra-ui/react";
-import Layout from "../components/Layout";
-import ProductsSection from "../components/Products/ProductsSection";
-import fetcher from "../utils/fetcher";
+import Layout from "components/Layout";
+import ProductsSection from "components/Products/ProductsSection";
+import fetcher from "utils/fetcher";
 
 export default function Home({ data }) {
   const productSectionData = [
@@ -34,7 +34,7 @@ export default function Home({ data }) {
   return (
     <>
       <Head>
-        <title>Deal Vend | Home</title>
+        <title>Home - Deal Vend</title>
       </Head>
 
       <Layout showHeaderCenter breadcrumbPaths={null}>

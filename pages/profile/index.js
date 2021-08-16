@@ -22,6 +22,7 @@ import useAuth from "hooks/useAuth";
 import { Loader } from "components/Feedback";
 import { Avatar } from "components/Image";
 import { BsBriefcaseFill, BsPen } from "react-icons/bs";
+import Head from "next/head";
 
 const ProfilePage = () => {
   const auth = useAuth();
@@ -34,6 +35,10 @@ const ProfilePage = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>Profile - Deal Vend</title>
+      </Head>
+
       {auth.me ? (
         <Stack alignItems="center" textAlign="center" minH="70vh" spacing={2}>
           <Box pos="relative">
