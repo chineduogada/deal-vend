@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/layout";
-import { Heading, Input } from "@chakra-ui/react";
+import { Heading, Input, Stack } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
 import { Avatar } from "components/Image";
 import Layout from "components/Layout";
@@ -8,7 +8,9 @@ import useForm from "hooks/useForm";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { BsGear } from "react-icons/bs";
-import http from "utils/http";
+import http, { changeMyPassword, updateMe } from "utils/http";
+import { Loader } from "components/Feedback";
+import Head from "next/head";
 
 // const pageSEO = buildSEO("Edit Profile", "...");
 // const breadcrumb = [
@@ -17,7 +19,7 @@ import http from "utils/http";
 // ];
 
 const MiniSection = ({ children, p, pt, ...rest }) => (
-  <Box maxW="768px" mx="auto" p={p} pt={pt} mb={0} pos="relative">
+  <Box maxW="768px" mx="auto" p={p} pt={pt} mb={0} pos="relative" {...rest}>
     {children}
   </Box>
 );
@@ -40,7 +42,9 @@ const Form = ({
   useEffect(() => {
     if (formSubmitState.hasSubmitError) {
       toast({
-        description: formSubmitState.hasSubmitError,
+        description: formSubmitState.hasSubmitError.includes("confirmPassword")
+          ? "ConfirmPassword must match Password"
+          : formSubmitState.hasSubmitError,
         status: "error",
         duration: 3 * 1000,
         position: "top",
@@ -63,9 +67,10 @@ const Form = ({
 
   return (
     <Box as="form" {...formProps}>
-      <Box
+      <Stack
+        spacing={4}
         py={5}
-        bg="brand.white"
+        bg="white"
         rounded="md"
         mb={5}
         p={{ base: 2, md: 5 }}
@@ -74,13 +79,12 @@ const Form = ({
         {fieldsProps.map((field) => (
           <Input key={field.id} {...field} onChange={handleType} />
         ))}
-      </Box>
+      </Stack>
 
       <Flex justifyContent="flex-end">
         {renderSubmitBtn({
           text: submitBtnText,
-          variant: "primary",
-          sm: true,
+          colorScheme: "green",
           leftIcon: <BsGear />,
         })}
       </Flex>
@@ -91,32 +95,28 @@ const Form = ({
 const ProfileSettingPage = () => {
   const router = useRouter();
   const auth = useAuth();
-  const { currentUser } = auth;
+  const { me } = auth;
 
   const forms = {
     personalInfo: {
       formFields: [
         {
-          id: "firstName",
-          placeholder: "First name",
-          value: currentUser?.firstName,
+          id: "name",
+          placeholder: "John Doe",
+          value: me?.name,
         },
         {
-          id: "lastName",
-          placeholder: "Last name",
-          value: currentUser?.lastName,
-        },
-        {
-          id: "email",
-          placeholder: "Email",
-          value: currentUser?.email,
-          mute: true,
+          id: "Email",
+          placeholder: "example@email.com",
+          value: me?.email,
+          disabled: true,
         },
       ],
       doSubmit: async (fieldsObj) => {
-        await http.patch("/me", fieldsObj);
+        await updateMe({ name: fieldsObj.name });
 
         await auth.handleFetchCurrentUser();
+        router.reload();
       },
     },
 
@@ -139,36 +139,33 @@ const ProfileSettingPage = () => {
         },
       ],
       doSubmit: async (fieldsObj) => {
-        await http.post("/auth/change-password", fieldsObj);
-
-        setTimeout(() => {
-          router.reload();
-        }, 1000);
+        await changeMyPassword(fieldsObj);
       },
     },
   };
+
+  useEffect(() => {
+    if (!auth.me) router.replace("/auth/login?redirectTo=/profile");
+  }, [auth.me]);
 
   return (
     <Layout
     // SEO={pageSEO} breadcrumb={breadcrumb}
     >
-      {auth.me && (
+      <Head>
+        <title>Edit Profile - Deal Vend</title>
+      </Head>
+
+      {auth.me ? (
         <>
-          <MiniSection mt={10} p={{ base: 4, md: 10 }} pt={{ md: 0 }}>
+          <MiniSection p={{ base: 4, md: 10 }} pt={0}>
             <Flex
               flexDir="column"
               textAlign="center"
               alignItems="center"
-              // pos="absolute"
-              // top={0}
-              // left="50%"
-              transform="translate(0, calc(-120px / 2))"
+              mb={5}
             >
               <Avatar lg />
-
-              <Heading type="h4" m={0}>
-                {auth.name}
-              </Heading>
             </Flex>
 
             <Form
@@ -188,6 +185,8 @@ const ProfileSettingPage = () => {
             />
           </MiniSection>
         </>
+      ) : (
+        <Loader />
       )}
     </Layout>
   );

@@ -15,6 +15,7 @@ import { Link } from "components/Link";
 import useToast from "hooks/useToast";
 import http, { login } from "utils/http";
 import useAuth from "hooks/useAuth";
+import Head from "next/head";
 
 const MiniSection = ({ heading, children, ...rest }) => (
   <Box {...rest} as="section" pos="relative">
@@ -85,6 +86,10 @@ const LoginPage = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>Login - Deal Vend</title>
+      </Head>
+
       <Box minH="70vh">
         <Grid
           templateColumns={{ base: "1fr", md: "1fr 1fr" }}
@@ -108,14 +113,6 @@ const LoginPage = () => {
                 value={formData.password}
                 onChange={handleInputType}
               />
-
-              {/* <Flex
-                justifyContent={{ base: "center", md: "flex-end" }}
-                my={5}
-                color="green.500"
-              >
-                <Link href="/forgot-password">Forgot password?</Link>
-              </Flex> */}
 
               <Button
                 pos={{ base: "relative", md: "absolute" }}

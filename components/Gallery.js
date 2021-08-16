@@ -6,36 +6,20 @@ import {
 import { Image } from "./Image";
 
 const Gallery = ({ product }) => {
-  const allImages = product.images;
-  // product.images.sort((image) => {
-  //   return image.isPrimary ? -1 : 1;
-  // }) || [];
-
   return (
     product && (
       <>
         {/* For Mobile */}
         <Box d={{ base: "block", md: "none" }} w="100%">
-          <FaderThemeProvider
-            theme={{
-              dots: { 1: "#3182ce", 2: "#eee" },
-              carets: { 1: "#3182ce", 2: "#eee" },
-            }}
-          >
-            <Fader dots buttons>
-              {allImages.map((image, index) => (
+          <Fader buttons>
+            {[`/img/${product.name}.jpg`, ...product.images].map(
+              (image, index) => (
                 <Flex justifyContent="center" key={index}>
-                  <Image
-                    w="280px"
-                    h="230px"
-                    isProduct
-                    // src={image.imageUrl}
-                    src={image}
-                  />
+                  <Image w="280px" h="230px" isProduct src={image} />
                 </Flex>
-              ))}
-            </Fader>
-          </FaderThemeProvider>
+              )
+            )}
+          </Fader>
         </Box>
 
         {/* From Tab */}
@@ -44,10 +28,7 @@ const Gallery = ({ product }) => {
             w="250px"
             h="200px"
             isProduct
-            src={
-              // product.primaryImage?.imageUrl || "/images/products/default.png"
-              product.images[0]
-            }
+            src={`/img/${product.name}.jpg`}
           />
 
           {product.images.length ? (

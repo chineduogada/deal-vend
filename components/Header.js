@@ -34,7 +34,7 @@ const Top = () => (
 );
 
 const Center = () => (
-  <Flex p={1} flexDir={media("column", "row")}>
+  <Flex flexDir={media("column", "row")} mt={2}>
     <Categories order={media(1, 0)} />
     <Carousel flex="1" />
   </Flex>

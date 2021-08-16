@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import {
   Badge,
   Box,
@@ -8,6 +6,7 @@ import {
   Flex,
   GridItem,
   IconButton,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { BiHeart, BiMinus, BiPlus, BiTrash } from "react-icons/bi";
@@ -15,90 +14,27 @@ import { AiOutlineStop } from "react-icons/ai";
 import formatPrice from "../../utils/formatPrice";
 import truncate from "../../utils/truncate";
 import cartGridTemplateCols from "../gridTemplateCols/cartGridTemplateCols";
-import { useState } from "react";
+import { Image } from "components/Image";
+import { Link } from "components/Link";
+import useCart from "hooks/useCart";
 
-const SaveAndTrashBtn = ({ ...rest }) => (
-  <ButtonGroup {...rest} mt={1} size="sm">
-    <Button
-      d={{ base: "none", md: "flex" }}
-      variant="ghost"
-      leftIcon={<BiHeart />}
-    >
-      Moved to saved items
-    </Button>
+const CartCard = ({ product }) => {
+  const { outOfStock, price, quantity, name } = product;
 
-    <Box
-      d={{ base: "block", md: "none" }}
-      borderRight="1px"
-      borderColor="gray.300"
-      pr={3}
-    >
-      <IconButton isRound variant="ghost">
-        <BiHeart />
-      </IconButton>
-    </Box>
+  const discount = 10;
+  const discountedPrice = price - (price * discount) / 100;
+  const savedPrice = price - discountedPrice;
+  const subTotalPrice = discountedPrice * quantity;
 
-    <Button variant="ghost" leftIcon={<BiTrash />}>
-      Trash
-    </Button>
-  </ButtonGroup>
-);
-
-const Counter = ({ itemCount, onDecrease, onIncrease, ...rest }) => (
-  <Flex
-    {...rest}
-    h="100%"
-    flexDir={{ base: "row", md: "column" }}
-    alignItems="center"
-    justifyContent={{ base: "space-between", md: "center" }}
-  >
-    <Button size="sm" onClick={onIncrease}>
-      <BiPlus />
-    </Button>
-
-    <Text as="b">{itemCount}</Text>
-
-    <Button size="sm" onClick={onDecrease} disabled={itemCount == 1}>
-      <BiMinus />
-    </Button>
-  </Flex>
-);
-
-const UnitPrice = ({ ...rest }) => (
-  <Flex
-    {...rest}
-    flexDir="column"
-    alignItems={{ base: "flex-end", md: "center" }}
-    justifyContent="center"
-    h={{ base: "auto", md: "100%" }}
-  >
-    <Text fontWeight="500" mb={{ base: 0, md: 2 }}>
-      {formatPrice("en-NG", 5500, "NGN")}
-    </Text>
-
-    <Text fontSize="sm" fontWeight="500" textDecor="line-through" opacity={0.7}>
-      {formatPrice("en-NG", 5500, "NGN")}
-    </Text>
-    <Text fontWeight="500" fontSize="xs" d={{ base: "none", md: "block" }}>
-      Savings {formatPrice("en-NG", 5500, "NGN")}
-    </Text>
-  </Flex>
-);
-
-const CartCard = ({ outOfStock }) => {
-  const [itemCount, setItemCount] = useState(1);
-
-  const handleDecrease = () => {
-    setItemCount((prevItemCount) => prevItemCount - 1);
-  };
-
-  const handleIncrease = () => {
-    setItemCount((prevItemCount) => prevItemCount + 1);
-  };
+  const {
+    handleRemoveProduct,
+    handleIncreaseQty,
+    handleDecreaseQty,
+    isLoading,
+  } = useCart();
 
   return (
     <Box
-      as="article"
       p={{ base: 1, md: 0 }}
       d={{ base: "block", md: "grid" }}
       gridTemplateColumns={outOfStock ? "3.5fr 2.5fr" : cartGridTemplateCols}
@@ -107,20 +43,13 @@ const CartCard = ({ outOfStock }) => {
       bg="white"
       opacity={outOfStock && 0.5}
     >
-      <GridItem
-        borderRight={{ base: 0, md: "1px" }}
-        borderColor="gray.300"
-        p={1}
-      >
+      <GridItem borderRight={{ base: 0, md: "1px solid #eee" }} p={1}>
         <Flex
-          borderBottom={outOfStock ? 0 : { base: "1px", md: 0 }}
-          borderColor="gray.300"
+          borderBottom={outOfStock ? 0 : { base: "1px solid #eee", md: 0 }}
           pb={2}
         >
           <Box
-            w={{ base: "110px", md: "60px" }}
-            h={{ base: "110px", md: "60px" }}
-            mr={1}
+            mr={2}
             alignItems="flex-start"
             rounded="md"
             overflow="hidden"
@@ -128,10 +57,10 @@ const CartCard = ({ outOfStock }) => {
             pos="relative"
           >
             <Image
-              src="/img/carousel-img-1.jpg"
-              width={100}
-              height={100}
-              layout="responsive"
+              src={`/img/${product.name}.jpg`}
+              width={75}
+              height={75}
+              isProduct
             />
           </Box>
 
@@ -146,25 +75,38 @@ const CartCard = ({ outOfStock }) => {
 
             <Box>
               <Link href="/sd">
-                <a>
-                  <Text as="b" fontSize="sm" mb={{ base: 2, md: 0 }}>
-                    {outOfStock
-                      ? truncate(
-                          "STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH",
-                          30
-                        )
-                      : truncate(
-                          "STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH STREAM 11 INTEL CELERON® 4GB RAM 32GB EMMC WIN 10+32GB FLASH",
-                          70
-                        )}
-                  </Text>
-                </a>
+                <Text
+                  as="b"
+                  fontSize="sm"
+                  mb={{ base: 2, md: 0 }}
+                  textTransform="capitalize"
+                >
+                  {outOfStock ? truncate(name, 30) : truncate(name, 70)}
+                </Text>
               </Link>
             </Box>
 
-            <SaveAndTrashBtn d={{ base: "none", md: "flex" }} />
+            <SaveAndTrashBtn
+              handleRemoveProduct={handleRemoveProduct.bind(null, product)}
+              disabled={true}
+              d={{ base: "none", md: "flex" }}
+            />
 
-            <UnitPrice d={{ base: "flex", md: "none" }} />
+            <UnitPrice
+              discountedPrice={discountedPrice}
+              savedPrice={savedPrice}
+              price={price}
+              d={{ base: "flex", md: "none" }}
+            />
+
+            <Text
+              textAlign="right"
+              fontWeight="700"
+              fontSize="lg"
+              d={{ base: "block", md: "none" }}
+            >
+              {formatPrice("en-NG", subTotalPrice, "NGN")}
+            </Text>
           </Box>
         </Flex>
 
@@ -174,11 +116,15 @@ const CartCard = ({ outOfStock }) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <SaveAndTrashBtn />
+          <SaveAndTrashBtn
+            handleRemoveProduct={handleRemoveProduct.bind(null, product)}
+            disabled={true}
+          />
           <Counter
-            itemCount={itemCount}
-            onIncrease={handleIncrease}
-            onDecrease={handleDecrease}
+            itemCount={quantity}
+            onIncrease={handleIncreaseQty.bind(null, product)}
+            onDecrease={handleDecreaseQty.bind(null, product)}
+            isLoading={isLoading}
             w="100px"
           />
         </Box>
@@ -196,33 +142,114 @@ const CartCard = ({ outOfStock }) => {
         <>
           <GridItem
             d={{ base: "none", md: "block" }}
-            borderRight={{ base: 0, md: "1px" }}
-            borderColor="gray.300"
+            borderRight={{ base: 0, md: "1px solid #eee" }}
             p={2}
           >
             <Counter
-              itemCount={itemCount}
-              onIncrease={handleIncrease}
-              onDecrease={handleDecrease}
+              itemCount={quantity}
+              onIncrease={handleIncreaseQty.bind(null, product)}
+              onDecrease={handleDecreaseQty.bind(null, product)}
+              isLoading={isLoading}
             />
           </GridItem>
 
           <GridItem
             d={{ base: "none", md: "block" }}
-            borderRight={{ base: 0, md: "1px" }}
-            borderColor="gray.300"
+            borderRight={{ base: 0, md: "1px solid #eee" }}
             p={1}
           >
-            <UnitPrice />
+            <UnitPrice
+              discountedPrice={discountedPrice}
+              savedPrice={savedPrice}
+              price={price}
+            />
           </GridItem>
 
           <GridItem d={{ base: "none", md: "grid" }} placeItems="center" p={1}>
-            <Text fontWeight="700">{formatPrice("en-NG", 15500, "NGN")}</Text>
+            <Text fontWeight="700">
+              {formatPrice("en-NG", subTotalPrice, "NGN")}
+            </Text>
           </GridItem>
         </>
       )}
     </Box>
   );
 };
+
+const SaveAndTrashBtn = ({ disabled, handleRemoveProduct, ...rest }) => (
+  <ButtonGroup {...rest} mt={1} size="sm">
+    <Button
+      disabled={disabled}
+      d={{ base: "none", md: "flex" }}
+      variant="ghost"
+      leftIcon={<BiHeart />}
+    >
+      Moved to saved items
+    </Button>
+
+    <Box
+      d={{ base: "block", md: "none" }}
+      borderRight="1px"
+      borderColor="gray.300"
+      pr={3}
+    >
+      <IconButton disabled={disabled} isRound variant="ghost">
+        <BiHeart />
+      </IconButton>
+    </Box>
+
+    <Button
+      bg="red.200"
+      color="red.700"
+      _hover={{ opacity: 0.8 }}
+      variant="ghost"
+      leftIcon={<BiTrash />}
+      onClick={handleRemoveProduct}
+    >
+      Trash
+    </Button>
+  </ButtonGroup>
+);
+
+const Counter = ({ itemCount, onDecrease, onIncrease, isLoading, ...rest }) => (
+  <Flex
+    {...rest}
+    h="100%"
+    flexDir={{ base: "row", md: "column" }}
+    alignItems="center"
+    justifyContent={{ base: "space-between", md: "center" }}
+  >
+    <Button size="sm" onClick={onIncrease}>
+      <BiPlus />
+    </Button>
+
+    <Text as="b">{isLoading ? <Spinner size="sm" /> : itemCount}</Text>
+
+    <Button size="sm" onClick={onDecrease} disabled={itemCount == 1}>
+      <BiMinus />
+    </Button>
+  </Flex>
+);
+
+const UnitPrice = ({ price, discountedPrice, savedPrice, ...rest }) => (
+  <Flex
+    {...rest}
+    flexDir="column"
+    alignItems={{ base: "flex-end", md: "center" }}
+    justifyContent="center"
+    h={{ base: "auto", md: "100%" }}
+  >
+    <Text fontWeight="500" mb={{ base: 0, md: 2 }}>
+      {formatPrice("en-NG", discountedPrice, "NGN")}
+    </Text>
+
+    <Text fontSize="sm" fontWeight="500" textDecor="line-through" opacity={0.7}>
+      {formatPrice("en-NG", price, "NGN")}
+    </Text>
+    <Text fontWeight="500" fontSize="xs" d={{ base: "none", md: "block" }}>
+      Savings {formatPrice("en-NG", savedPrice, "NGN")}
+    </Text>
+  </Flex>
+);
 
 export default CartCard;

@@ -21,16 +21,18 @@ import { useRouter } from "next/router";
 import { BsHeart } from "react-icons/bs";
 import { MdStars } from "react-icons/md";
 import { FaBoxOpen, FaCartPlus, FaChevronRight, FaTimes } from "react-icons/fa";
-import Layout from "../../components/Layout";
-import Rating from "../../components/Rating";
-import fetcher from "../../utils/fetcher";
-import truncate from "../../utils/truncate";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import formatPrice from "../../utils/formatPrice";
-import Gallery from "../../components/Gallery";
-import TipAbout from "../../components/TipAbout";
-import AddToCartButton from "../../components/AddToCartButton";
+import Layout from "components/Layout";
+import Rating from "components/Rating";
+import fetcher from "utils/fetcher";
+import truncate from "utils/truncate";
+import calcDiscountPrice from "utils/calcDiscountPrice";
+import formatPrice from "utils/formatPrice";
+import Gallery from "components/Gallery";
+import TipAbout from "components/TipAbout";
+import AddToCartButton from "components/AddToCartButton";
 import { useInView } from "react-intersection-observer";
+import buildSEO from "utils/buildSEO";
+import Head from "next/head";
 
 const details = [
   {
@@ -237,13 +239,17 @@ const Product = ({ product }) => {
             height="90px"
             flexShrink={0}
           >
-            <Image src="/img/carousel-img-1.jpg" width="90px" height="90px" />
+            <Image
+              src={`/img/${product.name}.jpg`}
+              width="90px"
+              height="90px"
+            />
           </Box>
 
           <Box flex="1" ml={1}>
             <Heading as="h5" fontSize="md" fontWeight="400" mb={2}>
               {truncate(
-                `${product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB
+                `${product.name} POP4 (BC2c) 6" Screen 32GB ROM + 2GB
                     RAM, 8MP/5MP Camera, Android Q (Go Edition), 5000mah - Ice
                     Lake Green`,
                 17
@@ -274,11 +280,10 @@ const Product = ({ product }) => {
   );
 
   product.images = [
-    "/img/carousel-img-1.jpg",
-    "/img/carousel-img-2.jpg",
-    "/img/carousel-img-1.jpg",
-    "/img/carousel-img-2.jpg",
-    "/img/carousel-img-1.jpg",
+    "/img/product cover 1.jpg",
+    "/img/product cover 2.jpg",
+    "/img/product cover 3.jpg",
+    "/img/product cover 4.jpg",
   ];
 
   return (
@@ -286,6 +291,10 @@ const Product = ({ product }) => {
       breadcrumbPaths={[{ name: "Home", path: "/" }, { name: product.slug }]}
       footerProps={{ mb: { base: "70px", md: 0 } }}
     >
+      <Head>
+        <title>{product?.name || "..."} - Deal Vend</title>
+      </Head>
+
       <Wrapper
         renderGallery={<Gallery product={product} />}
         renderAside={renderAside()}
@@ -397,7 +406,7 @@ const Product = ({ product }) => {
 
 const HeaderDetail = ({ product, observer }) => {
   const renderLove = (props) => (
-    <IconButton isRound {...props} colorScheme="blue">
+    <IconButton isRound {...props} colorScheme="green" disabled>
       <BsHeart />
     </IconButton>
   );
@@ -406,7 +415,7 @@ const HeaderDetail = ({ product, observer }) => {
     <Box ref={observer.ref}>
       <Flex justifyContent="space-between" mb={3} mt={{ base: 4, md: 0 }}>
         <Text as="h2" fontSize={{ base: "lg", md: "2xl" }} fontWeight="400">
-          {product.name} Tecno POP4 (BC2c) 6" Screen 32GB ROM + 2GB RAM, 8MP/5MP
+          {product.name} POP4 (BC2c) 6" Screen 32GB ROM + 2GB RAM, 8MP/5MP
           Camera, Android Q (Go Edition), 5000mah - Ice Lake Green
         </Text>
 
@@ -420,7 +429,7 @@ const HeaderDetail = ({ product, observer }) => {
           </Text>
 
           <Text fontWeight="bold" mx={{ md: 2 }} opacity={0.8}>
-            {product.brand || "Tecno | Similar products from Tecno"}
+            {product.brand || "Dell | Similar products from Dell"}
           </Text>
         </Flex>
 

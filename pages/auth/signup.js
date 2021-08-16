@@ -14,6 +14,7 @@ import Layout from "components/Layout";
 import { Link } from "components/Link";
 import useToast from "hooks/useToast";
 import http, { signup } from "utils/http";
+import Head from "next/head";
 
 const MiniSection = ({ heading, children, ...rest }) => (
   <Box {...rest} as="section" pos="relative">
@@ -88,6 +89,10 @@ const SignupPage = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>Sign up - Deal Vend</title>
+      </Head>
+
       <Box minH="70vh">
         <Grid
           templateColumns={{ base: "1fr", md: "1fr 1fr" }}

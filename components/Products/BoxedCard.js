@@ -1,17 +1,18 @@
-import Image from "next/image";
 import { Text, Badge, Box } from "@chakra-ui/react";
-import formatPrice from "../../utils/formatPrice";
-import truncate from "../../utils/truncate";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import Link from "next/link";
+import formatPrice from "utils/formatPrice";
+import truncate from "utils/truncate";
+import calcDiscountPrice from "utils/calcDiscountPrice";
+import AddToCartButton from "components/AddToCartButton";
+import { Link } from "components/Link";
+import { Image } from "components/Image";
 
 const discount = 20;
 const price = 7000;
 
 const BoxedCard = ({ product }) => {
   return (
-    <Link href="/products/[slug]" as={`/products/${product.slug}`}>
-      <a>
+    <Box mx="2px">
+      <Link href={`/products/${product.slug}`} mute>
         <Box
           m="2px"
           overflow="hidden"
@@ -34,10 +35,10 @@ const BoxedCard = ({ product }) => {
             - {discount}%
           </Badge>
           <Image
-            src="/img/carousel-img-1.jpg"
-            layout="responsive"
-            width={100}
-            height={100}
+            src={`/img/${product.name}.jpg`}
+            isProduct
+            width="100%"
+            height="120px"
           />
 
           <Box p={1}>
@@ -72,8 +73,9 @@ const BoxedCard = ({ product }) => {
             </Text>
           </Box>
         </Box>
-      </a>
-    </Link>
+      </Link>
+      <AddToCartButton product={product} />
+    </Box>
   );
 };
 

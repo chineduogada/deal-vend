@@ -1,7 +1,6 @@
 import { Box, Flex, Heading, List, ListItem, ListIcon } from "@chakra-ui/react";
 import {
   GrFacebook,
-  GrTwitter,
   GrInstagram,
   GrLinkedin,
   GrServices,
@@ -11,17 +10,46 @@ import { GiSellCard } from "react-icons/gi";
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import { GoLaw } from "react-icons/go";
 import { FaHandshake } from "react-icons/fa";
+import { SiGmail } from "react-icons/si";
 
 import Brand from "./Brand";
+import { Link } from "./Link";
+import { AiOutlinePhone, AiOutlineWhatsApp } from "react-icons/ai";
 
 const data = [
   {
     title: "Join us on",
     items: [
-      { text: "Facebook", icon: <GrFacebook /> },
-      { text: "Twitter", icon: <GrTwitter /> },
-      { text: "Instagram", icon: <GrInstagram /> },
-      { text: "LinkedIn", icon: <GrLinkedin /> },
+      {
+        text: "Gmail",
+        href: "mailto:chineduogada@gmail.com",
+        icon: <SiGmail />,
+      },
+      {
+        text: "Facebook",
+        href: "https://www.facebook.com/chineduogada2000/",
+        icon: <GrFacebook />,
+      },
+      {
+        text: "Instagram",
+        href: "https://www.instagram.com/richcode.js/",
+        icon: <GrInstagram />,
+      },
+      {
+        text: "Linkedin",
+        href: "https://www.linkedin.com/in/stanley-ogada-22527b19a/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3B0UNqbNxSTBa6uufn5HBRkQ%3D%3D",
+        icon: <GrLinkedin />,
+      },
+      {
+        text: "WhatsApp",
+        href: "https://api.whatsapp.com/send?phone=+2348077917051",
+        icon: <AiOutlineWhatsApp />,
+      },
+      {
+        text: "Phone",
+        href: "tel:+2348077917051",
+        icon: <AiOutlinePhone />,
+      },
     ],
   },
   {
@@ -48,6 +76,13 @@ const data = [
     ],
   },
 ];
+
+const renderText = (item) => (
+  <>
+    <ListIcon fontSize="lg">{item.icon}</ListIcon>
+    {item.text}
+  </>
+);
 
 const Footer = ({ ...rest }) => {
   return (
@@ -78,10 +113,13 @@ const Footer = ({ ...rest }) => {
                 {list.title}
               </Heading>
               <List spacing={1}>
-                {list.items.map((item, idx) => (
-                  <ListItem fontSize="sm" key={idx}>
-                    <ListIcon fontSize="lg">{item.icon}</ListIcon>
-                    {item.text}
+                {list.items.map((item, index) => (
+                  <ListItem fontSize="sm" key={index}>
+                    {item.href ? (
+                      <Link href={item.href}>{renderText(item)}</Link>
+                    ) : (
+                      renderText(item)
+                    )}
                   </ListItem>
                 ))}
               </List>

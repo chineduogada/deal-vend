@@ -2,21 +2,19 @@ import NextLink from "next/link";
 import PropTypes from "prop-types";
 import { Box } from "@chakra-ui/react";
 
-export const Link = ({ children, href, as, mute, d, ...rest }) => {
+export const Link = ({ children, href = "#", as, mute, d, ...rest }) => {
   return (
-    <NextLink href={href} as={as}>
-      <a style={d ? { display: d } : {}}>
-        <Box
-          as="span"
-          _hover={{
-            color: "brand.black1",
-            textDecoration: mute ? "none" : "underline",
-          }}
-          {...rest}
-        >
-          {children}
-        </Box>
-      </a>
+    <NextLink href={href} as={as} passHref>
+      <Box
+        as="a"
+        _hover={{
+          color: "brand.black1",
+          textDecoration: mute ? "none" : "underline",
+        }}
+        {...rest}
+      >
+        {children}
+      </Box>
     </NextLink>
   );
 };
